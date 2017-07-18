@@ -1,0 +1,18 @@
+public class Solution {
+    public boolean canJump(int[] A) {
+        int reach=0;
+        if(A.length<=1||A==null){
+            return true;
+        }
+        for(int i=0;i<A.length;i++){
+            if(i<=reach){
+                reach=Math.max(reach,A[i]+i);
+            }
+            
+        }
+        if(reach<A.length-1){
+            return false;
+        }
+        else return true;
+    }
+}
