@@ -1,0 +1,23 @@
+public class Solution {
+
+    public String reverseStr(String s, int k) {
+        char [] ca=s.toCharArray();
+        int len=s.length();
+        int i=0;
+        while(i<len){
+            //be attention the java.lang.ArrayIndexOutOfBoundsException: 8
+            int j=Math.min(i+k-1,len-1);
+            reverse(ca,i,j);
+            i=i+2*k;
+        }
+        
+        return String.valueOf(ca);
+    }
+    private void reverse(char[] arr, int l, int r) {
+        while (l < r) {
+            char temp = arr[l];
+            arr[l++] = arr[r];
+            arr[r--] = temp;
+        }
+    }
+}
