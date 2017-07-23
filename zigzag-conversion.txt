@@ -1,0 +1,24 @@
+public class Solution {
+    public String convert(String s, int nRows) {
+        //Time O(n^2)
+        //Space O(n)
+        int size=2*nRows-2;
+        int len=s.length();
+        //if(s==null||s.length==0||nRows<=0) return "";
+         if(nRows==1){ return s;}
+        StringBuilder res=new StringBuilder();
+
+        for(int i=0;i<nRows;i++){
+            for(int j=i;j<len;j=j+size){
+                res=res.append(s.charAt(j));
+                if(i!=0&&i!=nRows-1){
+                    int temp=j+size-2*i;
+                    if(temp<len)
+                    res=res.append(s.charAt(temp));
+                }
+            }
+        }
+        
+        return res.toString();
+    }
+}
