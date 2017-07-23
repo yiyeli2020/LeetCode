@@ -1,0 +1,28 @@
+public class Solution {
+    private void reverse(char[] ca,int i,int j){
+        for(;i<j;i++,j--){
+            char temp=ca[i];
+            ca[i]=ca[j];
+            ca[j]=temp;
+        }
+    }
+    public String reverseWords(String s) {
+        char[] ca=s.toCharArray();
+        int len=s.length();
+        int start,end;
+        for(int i=0;i<len;i++){
+             if(ca[i]!=' '){
+                 start=i;
+                 end=i;
+                 while(end+1<len&&ca[end+1]!=' '){end++;}
+                 // System.out.println("start="+start+"end="+end);
+                 reverse(ca,start,end);
+                 i=end+1;
+                 
+             }
+            
+        }    
+        
+        return new String(ca);   
+    }
+}
