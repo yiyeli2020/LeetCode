@@ -1,0 +1,29 @@
+public class Solution {
+    private int local=0,maxlen=0;
+    public String longestPalindrome(String s) {
+        if(s.length()<=2) return s;
+        for(int j=0;j<s.length();j++){
+        extendString(s,j,j);
+    
+        extendString(s,j,j+1);
+        // System.out.println("j   "+j+"  local   "+local+" maxlen   "+maxlen);          
+         }
+
+        return s.substring(local,local+maxlen);
+    }
+    public void extendString(String s,int j,int k){
+        while(j>=0&&k<=s.length()-1&&s.charAt(j)==s.charAt(k)){
+            j--;
+            k++;
+        }
+        // System.out.println( "j= "+j+"k= "+k );
+        if(k-j-1>maxlen) {
+            maxlen=k-j-1;
+            local=j+1;
+        }
+    }
+    
+    
+    
+    
+}
