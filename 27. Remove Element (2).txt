@@ -1,0 +1,18 @@
+public class Solution {
+    public int removeElement(int[] nums, int val) {
+        if(nums==null||nums.length==0) return 0;
+        else if(nums.length==1&&nums[0]==val) return 0;
+        int tail=nums.length-1;
+        for(int i=1;i<=tail;i++){
+            if(nums[i-1]==val){
+                nums[i-1]=nums[tail];
+                i--;
+                tail--;
+            }
+            // System.out.println("num[i]="+nums[i]+"   i="+i+"   tail="+tail+"  nums[tail]="+nums[tail]);
+        }
+        if(nums[tail]!=val)
+        return tail+1;
+        else return tail;
+    }
+}
