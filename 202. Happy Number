@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool isHappy(int n) {
+        if(n<=0) return false;
+        int slow=n,fast=n;
+       do{
+            slow=digitSquareSum(slow);
+            fast=digitSquareSum(fast);
+            fast=digitSquareSum(fast);
+           cout<<"slow=  "<<slow<<"    fast= "<<fast<<endl;
+        }while(slow!=fast);
+        if(slow!=1) return false;
+        else if(slow==1) return true;
+        
+    }
+    int digitSquareSum(int n){
+        int sum=0,tmp;
+        while(n){
+            tmp=n%10;
+            sum+=tmp*tmp;
+            n=n/10;
+        }
+        
+        return sum;
+    }
+};
