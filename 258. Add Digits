@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int addDigits(int num) {
+        while(num>9){
+            num=sumdigit(num);
+        }
+        return num;
+    }
+    int sumdigit(int n){
+        int sum=0,tmp;
+        while(n){
+            tmp=n%10;
+            sum+=tmp;
+            n=n/10;
+        }
+        return sum;
+    }
+};
