@@ -1,0 +1,19 @@
+class Solution {
+public:
+    bool judgeCircle(string moves) {
+        int horizontal=0;
+        int vertical=0;
+        for(char ch:moves){
+            switch(ch)
+            {
+                case 'R': horizontal++;break;
+                case 'L': horizontal--;break;
+                case 'U': vertical++;break;
+                case 'D': vertical--;break;
+            }
+        }
+        if(horizontal==0&&vertical==0)
+            return true;
+        else return false;
+    }
+};
