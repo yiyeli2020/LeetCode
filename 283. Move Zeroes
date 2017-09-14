@@ -1,0 +1,41 @@
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+//         int slow=0,fast=nums.size()-1;
+//         for(int i=0;i<nums.size()&&slow<fast;i++){
+//             if(nums[i]!=0) continue;
+//             else if(nums[i]==0) {
+//                 slow=i;
+//                 if(nums[fast]!=0){
+//                     int temp=nums[fast];
+//                     nums[fast]=nums[slow];
+//                     nums[slow]=temp;
+//                     fast--;
+//                 }
+//                 else if(nums[fast]==0){
+//                     while(nums[fast]==0){
+//                         fast--;
+//                     }
+//                     int temp=nums[fast];
+//                     nums[fast]=nums[slow];
+//                     nums[slow]=temp;
+//                     fast--;
+//                 }
+//             }
+//        for(int m=0;m<nums.size();m++){
+//            cout<<nums[m]<<",";
+//        }
+//         cout<<endl;
+//         }
+        int j=0;
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]!=0){
+                nums[j]=nums[i];
+                j++;
+            }
+        }
+        for(;j<nums.size();j++){
+            nums[j]=0;
+        }
+    }
+};
