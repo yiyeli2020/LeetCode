@@ -1,0 +1,20 @@
+class Solution {
+public:
+    char findTheDifference(string s, string t) {
+        int len1=s.size();
+        int len2=t.size();
+        char ss,tt;
+        int sample;
+        unordered_map<char,int> m;
+        for(auto &ss:s){
+            m[ss]++;  
+        }
+        for(auto &tt:t){
+            m[tt]--;
+        }
+        for(int k=0;k<len2;k++){
+             if(m[t.at(k)]<0) sample=k;
+        }
+       return t.at(sample);
+    }
+};
