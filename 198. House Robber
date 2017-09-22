@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        if(nums.size()<=1) return nums.empty()? 0:nums[0];
+        else if(nums.size()==2) return max(nums[0],nums[1]);
+        vector<int> dp;
+        dp.push_back(nums[0]);
+        dp.push_back(max(nums[0],nums[1]));
+        for(int i=2;i<nums.size();i++){
+            //dp[i]=max(dp[i-2]+nums[i],dp[i-1]);//free(): invalid next size (fast): 0x00000000016a5ef0 ***
+            dp.push_back(max(dp[i-2]+nums[i],dp[i-1]));
+            //cout<<max(dp[i-2]+nums[i],dp[i-1])<<endl;
+        }
+        // for(int i=0;i<dp.size();i++){
+        //     cout<<"dp["<<i<<"]="<<dp[i]<<endl;
+        // }
+        return dp.end()--;
+        //end() 函数返回一个指向当前vector末尾元素的下一位置的迭代器.要访问末尾元素,需要先将此迭代器减1。
+        //back() 函数返回当前vector最末一个元素的引用。
+        
+    }
+};
