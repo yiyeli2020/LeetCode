@@ -1,0 +1,20 @@
+class Solution {
+public:
+    vector<int> findErrorNums(vector<int>& nums) {
+        vector<int> res;
+        unordered_map<int,int> map;
+        int twice=0;
+        int missing=0;
+        int len=nums.size();
+        for(auto n: nums){
+            map[n]++;
+        }
+        for(int i=1;i<=len;i++){
+            if(map[i]==0)  missing=i;
+                 if(map[i]==2) twice=i;
+        }
+        res.push_back(twice);
+        res.push_back(missing);
+        return res;
+    }
+};
