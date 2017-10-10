@@ -1,0 +1,18 @@
+class Solution {
+    public int longestPalindrome(String s) {
+    if(s==null || s.length()==0) return 0;
+        HashSet<Character> hs = new HashSet<Character>();
+        int odd=0;
+        for(char c:s.toCharArray()){
+            if(hs.contains(c)) {
+                hs.remove(c);
+                odd++;
+            }else{
+                hs.add(c);
+            }
+        }
+        if(!hs.isEmpty()) return odd*2+1;
+        return odd*2;
+        
+    }
+}
