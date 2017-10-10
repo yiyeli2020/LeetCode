@@ -1,0 +1,21 @@
+class Solution {
+ 
+public:
+    int findLHS(vector<int>& nums) {
+        unordered_map<int,int> map;
+        auto max=0;
+        for(auto element : nums){
+            map[element]++;
+            
+            if(map.count(element-1)>0){
+                max=std::max(max,map[element-1]+map[element]);
+                // must add std:: or it will have a warning can not use std as a function
+            }
+            if(map.count(element+1)>0){
+                max=std::max(max,map[element+1]+map[element]);
+            }
+            cout<<"map["<<element<<"]="<<map[element]<<"  max="<<max<<endl;
+        }
+        return max;
+    }
+};
