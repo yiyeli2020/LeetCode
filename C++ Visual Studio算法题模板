@@ -1,0 +1,74 @@
+#include<iostream>
+#include<string>
+#include<iterator>
+#include<algorithm>
+#include<vector>
+#include<fstream>
+#include<map>
+#include<stack>
+#include<queue>
+#include<math.h>
+using namespace std;
+inline void output(vector<int> result) {
+	//int size = result.size();
+	for (int i = 0; i < result.size(); i++) {
+		cout << result[i] << " ";
+	}
+	cout << endl;
+}
+inline void output2(string B, int j, int i) {
+	for (int k = 0; k < j - i; k++) {
+		cout << B[k];
+	}
+	cout << "   " << i << endl;
+}
+inline void output3(int A[],int n) {
+	for (int i = 0; i < n; i++) {
+		cout << A[i] << "  ";
+	}
+}
+void swap(int *sp, int i, int j) {
+		int temp = *(sp+i);
+		*(sp + i) = *(sp + j);
+		*(sp + j) = temp;
+		
+	}
+class Solution {
+public:
+	int removeDuplicates(int A[],int n) {
+		if (n <= 1) { return n; }
+			int slow=0,  fast=1;
+			while (fast<n)
+			{
+				if (A[slow] == A[fast]) { fast++; }
+				else
+				{
+
+				}
+				fast++;
+			}
+	return slow+1;
+	}
+	
+};                                                 
+
+
+void main(){   
+	Solution solution;
+	//vector<vector<int>> matrix = { 
+	//{1,2,8,9},
+	//{2,4,9,12},
+	//{4,7,10,13},
+	//{6,8,11,15}
+	//};
+	/*vector<int> num = { 100,4,200,1,3,2 };*/
+	//cout << matrix.size() << endl << matrix[0].size() << endl;
+	//int target = 7;
+	//cout << solution.longestConsecutive(num);
+	//if (solution.longestConsecutive(num)) cout << "true" << endl;
+	//else cout << "false" << endl;
+	int A[] = { 1,1,2 };
+	int n = 3;
+	output3(A,n);
+
+}
