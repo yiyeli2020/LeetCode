@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices, int fee) {
+        int size=prices.size();
+        vector<int> buy(size+1,INT_MIN);
+        vector<int> sell(size+1,0);
+        for(int i=0;i<size;i++){
+            buy[i+1]=max( sell[i]-prices[i], buy[i]);
+            sell[i+1] = max(buy[i+1] + prices[i] - fee, sell[i]);
+        }
+        return sell.back();
+        
+    }
+};
