@@ -1,0 +1,62 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+//         ListNode *p1=headA;
+//         ListNode *p2=headB;
+//         if(p1==NULL || p2==NULL) return NULL;
+//         while(p1 !=NULL && p2!=NULL && p1!=p2){
+//            //cout<<"p1->val="<<p1->val<<"     p2->val="<<p2->val<<endl;
+//             p1= p1->next;
+//             p2 = p2->next;
+//             if(p1==p2) return p1;
+//              if(p1==NULL) p1=headB;
+//              if(p2==NULL) p2=headA;
+//             //if(p1==NULL || p2==NULL) return NULL;
+            
+//         }
+//         return p1;
+         if(headA ==  NULL || headB == NULL){
+            return NULL;
+        }
+        ListNode *tempA = headA;
+        int lenA = 0;
+        ListNode *tempB = headB;
+        int lenB = 0;
+        while(tempA != NULL){
+            tempA = tempA->next;
+            lenA++;
+        }
+        while(tempB != NULL){
+            tempB = tempB->next;
+            lenB++;
+        }
+        int num = lenA - lenB;
+        tempA = headA;
+        tempB = headB;
+        if(num > 0) {
+            while(num){
+                tempA = tempA->next;
+                num--;
+            }
+        } else {
+            num = -num;
+            while(num){
+                tempB = tempB->next;
+                num--;
+            }
+        }
+        while(tempA != tempB){
+            tempA = tempA->next;
+            tempB = tempB->next;
+        }
+        return tempA;
+    }
+};
