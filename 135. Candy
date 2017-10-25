@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int candy(vector<int>& ratings) {
+        int n=ratings.size();
+        vector<int> candy(n,1);
+        int minimum=0;
+        for(int i=1;i<n;i++){
+            if(ratings[i-1]<ratings[i]) candy[i]=candy[i-1]+1;
+        }
+        for(int j=n-2;j>=0;j--){
+            if(ratings[j+1]<ratings[j]) candy[j]=max(candy[j],candy[j+1]+1);
+        }
+        for(int k=0;k<n;k++){
+           // cout<<candy[k]<<endl;
+            minimum+=candy[k];
+        }
+        return minimum;
+    }
+};
