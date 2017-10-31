@@ -1,0 +1,30 @@
+
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& M) {
+        if(M.empty()) return 0;
+        int n=M.size();
+        vector<int> leads(n,0);
+        for(int i=0;i<n;i++){ leads[i]=i;}
+        int groups=n;
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                if(M[i][j]){
+                    //https://zh.wikipedia.org/wiki/%E5%B9%B6%E6%9F%A5%E9%9B%86
+                    int lead1=find(i,leads);
+                    int lead2=find(j,leads);
+                    if(lead1!= lead2){  // if 2 group belongs 2 different leads, merge 2 group to 1
+                        leads[lead1]=lead2;
+                        groups--;
+                    }
+                }
+            }
+        }
+        
+        return groups;
+    }
+private:
+    int find(int x,vector<int> & father){
+        return father[x] == x? x:find(father[x], father);
+    }
+};
