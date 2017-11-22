@@ -1,0 +1,18 @@
+class Solution {
+public:
+    bool increasingTriplet(vector<int>& nums) {
+        int c1=INT_MAX,c2=INT_MAX;
+        for(int x:nums){
+            if(x<=c1){
+                c1=x;
+            }
+            if(x<=c2&&x>c1){ // if(x<=c2&&x>=c1){   is wrong because use >= the if(x<=c1) will excute again
+                c2=x;
+            }
+            if(x>c2 && x>c1) {
+                return true;
+            }
+        }
+        return false;
+    }
+};
