@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int hammingDistance(int x, int y) {
+      int z=x^y;
+      vector<int> bit;
+      int hamming=0;
+      while(z){
+          bit.push_back(z%2);
+          z=z/2;
+      }
+        for(int i=0;i<bit.size();i++){
+            cout<<bit[i]<<" ";
+        }
+      for(int i=0;i<bit.size();i++){
+          /*
+            misunderstanding of the Hamming distance
+            not the distance between of the differnt numbers
+            but the number of the different numbers
+          */
+           // if(bit[i]==1 && begin!=-1 && end==-1) {
+           //      end=i;
+           //      cout<<"At this time end="<<end<<endl;
+           //      break;
+           // }
+           // else if(bit[i]==1 && begin==-1 && end==-1) begin=i;
+          if(bit[i]==1) hamming++;
+          
+       }
+       return hamming;
+    }
+};
