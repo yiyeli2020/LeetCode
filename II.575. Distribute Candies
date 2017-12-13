@@ -1,0 +1,11 @@
+class Solution {
+public:
+    int distributeCandies(vector<int>& candies) {
+        unordered_map<int,int> kinds;
+        for(int cand:candies)
+       { kinds[cand]++;
+
+        }
+      return min(kinds.size(),candies.size()/2);
+    }
+};
