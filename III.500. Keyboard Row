@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<string> findWords(vector<string>& words) {
+        unordered_set<char> row1={'q','w','e','r','t','y','u','i','o','p'};
+        unordered_set<char> row2={'a','s','d','f','g','h','j','k','l'};
+        unordered_set<char> row3={'z','x','c','v','b','n','m'};
+        vector<unordered_set<char>> rows={row1,row2,row3};
+        vector<string> validWords;
+        for(int i=0;i<words.size();i++){
+            int row=0;
+            for(int k=0;k<rows.size();k++){
+                if(rows[k].count((char)tolower(words[i][0]))==1) row=k;
+            }
+            //cout<<"The words "<<words[i]<<" is in the row "<<row<<endl;
+            
+            bool flag=true;
+            for(int j=0;j<words[i].size();j++){// error: j<words[row].size()
+                if(rows[row].count((char)tolower(words[i][j]))==0) {// error: rows[j].count
+                    // cout<<"The words "<<words[i]<<" is NOT REALLY in the row "<<row<<", and We'll leave"<<endl;
+                    // cout<<"The words["<<i<<"]["<<j<<"]:"<<words[i][j]<<" is not in the row"<<endl;
+                    flag=false; 
+                    break;
+                }
+            }
+            // cout<<"Code is running normal"<<endl;
+            if(flag) validWords.push_back(words[i]);
+                                      
+        }
+        return validWords;     
+    }
+};
