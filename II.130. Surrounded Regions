@@ -1,0 +1,52 @@
+class Solution {
+public:
+ /* First, check the four border of the matrix. If there is a element is
+    'O', alter it and all its neighbor 'O' elements to '1'.
+    Then ,alter all the 'O' to 'X'
+    At last,alter all the '1' to 'O'
+         X X X X           X X X X             X X X X
+         X X O X  ->       X X O X    ->       X X X X
+         X O X X           X 1 X X             X O X X
+         X O X X           X 1 X X             X O X X             */
+    void solve(vector<vector<char>>& board) {
+        int row=board.size();if(row==0) return ;// return-statement with a value, in function returning 'void' [-fpermissive]
+        int col=board[0].size();
+       
+        for(int i=0;i<row;i++){ change(board,i,0,'O','1');}
+        for(int i=0;i<row;i++){ change(board,i,col-1,'O','1');}
+        for(int j=0;j<col;j++){ change(board,0,j,'O','1');}
+        for(int j=0;j<col;j++){ change(board,row-1,j,'O','1');}
+       // outmatrix(board);
+        for(int i=1;i<row-1;i++){
+            for(int j=1;j<col-1;j++){
+                if(board[i][j]=='O') change(board,i,j,'O','X');
+            }
+        }//outmatrix(board);
+         for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                if(board[i][j]=='1') {change(board,i,j,'1','O');
+              //  cout<<"Call the change in board["<<i<<"]["<<j<<"]"<<endl;
+                                     }
+            }
+        }//outmatrix(board);
+    }
+    void change(vector<vector<char>>& board,int i,int j,char A,char B){
+        if(i>=0 && j>=0 && i<board.size() && j<board[0].size() && board[i][j]==A){
+           // cout<<"Call the change in board["<<i<<"]["<<j<<"]"<<endl;
+            board[i][j]=B;
+            change(board,i-1,j,A,B);
+            change(board,i,j-1,A,B);
+            change(board,i+1,j,A,B);
+            change(board,i,j+1,A,B);
+        }
+    }
+    void outmatrix(vector<vector<char>>& board){
+        cout<<endl;
+        for(int i=0;i<board.size();i++){
+            for(int j=0;j<board[0].size();j++){
+                cout<<board[i][j]<<" ";
+            }
+            cout<<endl;
+        }
+    }
+};
