@@ -1,0 +1,34 @@
+class Solution {
+public:
+//     int countconnect(vector<vector<int>>& grid,int i,int j){
+//         int connect=0;
+//         if(i-1>=0  ) if(grid[i-1][j]==1)connect++;
+//         if(j-1>=0  ) if(grid[i][j-1]==1)connect++;
+        
+//         if(j+1<=grid[0].size())if(grid[i][j+1]==1) connect++;
+//         cout<<"THE CODE IS RUNNING NORMALLY"<<endl;
+//         if(i+1<=grid.size()) {
+//            cout<<"××××××××××××××××××××××××"<<endl;
+//             if(grid[i+1][j]==1){
+//                 connect++; 
+//             }
+        
+//         }
+//         return connect;
+//     }
+    int islandPerimeter(vector<vector<int>>& grid) {
+        int lands=0,connect=0;
+        int row=grid.size();
+        int col=grid[0].size();
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                if(grid[i][j]==1) {
+                    lands++;
+                    if(i!=0 && grid[i-1][j]==1) connect++;
+                    if(j!=0 && grid[i][j-1]==1) connect++;
+                }
+            }
+        }
+        return 4*lands-2*connect;
+    }
+};
