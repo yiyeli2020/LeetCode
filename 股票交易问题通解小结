@@ -1,0 +1,228 @@
+Leetcode中的股票交易问题共有下列几道：
+  121.Best Time to Buy and Sell Stock
+  122.Best Time to Buy and Sell Stock II
+  123.Best Time to Buy and Sell Stock III
+  188.Best Time to Buy and Sell Stock IV
+  309.Best Time to Buy and Sell Stock with Cooldown
+  714.Best Time to Buy and Sell Stock with Transaction Fee
+ 
+I --常见情况
+  本文的想法来自于下列的问题：给定一个代表每天股票价格的数组，是什么决定了我们能得到的最大利润？
+  大多数人会很快产生类似“那取决于我们处在第几天和我们被允许最多完成多少次交易”。
+  当然，这些是重要的因素因为它们在问题描述中就被显示出来。然而，在判断最大利润中有一个隐含因素不是那么明显但却至关重要，它将在下文中被阐述出来。
+  首先让我们确定符号来简化我们的分析，令prices作为长度为n的股票价格数组，i标记为第i天（i会从0到n-1)，k标记为被允许完成的最大交易次数,
+T[i][k]是在第i天的结尾经过最多k次交易所能获得的最大利润。很明显我们有基准情况：T[-1][k]=T[i][0]=0, 那就是没有股票或者没有交易导致没有利润
+（标记第1天为i=0因此i=0意味着没有股票）。现在如果我们能够把T[i][k]和它的子问题T[i-1][k],T[i][k-1],T[i-1][k-1],...，我们会有一个可行的递推关系式
+使得问题能够递归解决，所以我们怎样实现它呢？
+  最常见的直接方式是看第i天的行动，我们有多少种选择方式？答案是三种：买，卖，休息。我们应该采取哪种呢？
+  答案是：我们并不真的知道，但是可以去找哪一种最简单。假设没有其它的约束，我们可以尝试每种选择然后选择使得我们利润最大的一种。可是我们确实有一个额外的约束，
+就是不能在同一时间进行重复交易，意味着如果我们决定在第i天购买，那么我们手中就应该不持有股票；如果我们决定在第i天出售，我们手中应该恰好有一只股票。我们手中
+的股票数量是上文中提到的会影响我们第i天行为的因素同时也会影响最大利润。
+  因此我们对T[i][k]的定义应该被分割成两部分:T[i][k][0]和T[i][k][1],前者标记在最多k次交易和行动后我们手中没有股票的情况下第i天结尾时的最大利润，
+后者标记在最多k次交易和行动后我们手中只有一只股票的情况下第i天结尾时的最大利润，现在基准情况和递推关系可以被写作：
+  
+  1.基准情况：
+  
+  T[-1][k][0]=0, T[-1][k][1]=-Infinity
+  T[i][0][0]=0, T[i][0][1]=-Infinity
+  
+  2.递推关系：
+  
+  T[i][k][0]=max(T[i-1][k][0],T[i-1][k][1]+prices[i])
+  T[i][k][1]=max(T[i-1][k][1],T[i-1][k-1][0]-prices[i])
+
+对于基准情况，T[-1][k][0] = T[i][0][0] = 0有同样的含义正如之前当T[-1][k][1] = T[i][0][1] = -Infinity强调了事实对于我们来说如果没有可获得的股票
+或不被允许交易那么就不可能手中有一只股票。
+对于递推式中的T[i][k][0]，在第i天能采取的行动只有休息和卖，因为我们在一天结束时手中没有股票。T[i-1][k][0]是当采取行动休息时的最大利润，
+而T[i-1][k][1] + prices[i]则是当行动卖被采取时的最大利润。如果最大被允许的交易次数保持不变，由于一次交易包含两种成对的行为-买和卖。只有行为买会改变被
+允许的最大交易次数。（此处还有一种替代的解释）
+对于递推式中的T[i][k][1]，在第i天能采取的行动只有休息和买，因为我们在一天结束时手中只有一只股票。T[i-1][k][1]是当采取行动休息时的最大利润，
+而T[i-1][k-1][0] - prices[i]是当采取购买行为时的最大利润。要注意被允许的最大交易次数会减一，因为在第i天的购买行为会使用掉一次交易次数。
+为了找到最后一天结束时的最大利润，我们能够简化循环通过数组prices并且通过上面的递推关系式更新T[i][k][0]和T[i][k][1]。最终的答案是T[i][k][0]（我们总是
+有更大的利润如果我们以手中0只股票结束）
+ 
+II -- 对特殊情况的应用
+  前面提及的六种股票问题能够被k的值分类，k是被允许的最大交易次数（最后两个也有额外的要求例如冷却期或者交易费）。我会一个接一个的把通用解应用到这些问题上。
+
+   情况I：k=1
+对于这个情况，我们在每天都真的有两个未知变量：T[i][1][0]和T[i][1][1]，递推关系式表示：
+
+T[i][1][0] = max(T[i-1][1][0], T[i-1][1][1] + prices[i])
+T[i][1][1] = max(T[i-1][1][1], T[i-1][0][0] - prices[i]) = max(T[i-1][1][1], -prices[i])
+
+在第二个方程中我们充分利用了基准情况T[i][0][0]=0。
+很容易直接写出O(n)时间复杂度和O(n)空间复杂度的解，基于上面的两个方程。可是，如果你注意到在第i天的最大利润事实上只依赖于那些在第i-1天的利润，
+那么空间复杂度降为O(1)。这是空间最优的解法：
+
+public int maxProfit(int[] prices){
+        int T_i10=0,T_i11=Integer.MIN_VALUE;
+        for(int price:prices){
+                T_i10=Math.max(T_i10,T_i11 + price);
+                T_i11=Math.max(T_i11,-price);
+        }
+        return T_i10;
+}
+ 
+   情况 II: k=+Infinity
+如果k是正无穷的，那么在k和k-1之间没有任何真正区别，暗示了T[i-1][k-1][0] = T[i-1][k][0]和T[i-1][k-1][1] = T[i-1][k][1]，因此我们仍然在每天有两个未知变量：T[i][k][0]和T[i][k][1] ，k=+Infinity,递推关系式如下：
+
+T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
+T[i][k][1] = max(T[i-1][k][1], T[i-1][k-1][0] - prices[i]) = max(T[i-1][k][1], T[i-1][k][0] - prices[i])
+
+在第二个方程中我们会充分利用T[i-1][k-1][0] = T[i-1][k][0]，O(n)时间复杂度和O(1)空间复杂度的解法如下：
+
+public int maxProfit(int[] prices) {
+    int T_ik0 = 0, T_ik1 = Integer.MIN_VALUE;
+    
+    for (int price : prices) {
+        int T_ik0_old = T_ik0;
+        T_ik0 = Math.max(T_ik0, T_ik1 + price);
+        T_ik1 = Math.max(T_ik1, T_ik0_old - price);
+    }
+    
+    return T_ik0;
+}
+ 
+(注意: 旧值缓存的T_ik0,是变量T_ik0_old,是不可能的，特别感谢0x0101和elvina澄清这一点）
+ 
+这个解法提出了一种贪心的策略来获取最大利润：只要可能，在每个最小值出买股票然后在下一个局部最大值时迅速卖出。这等同于在prices中找到递增子序列，在每个子序列中的开头买入，在每个子序列的结尾卖出。这很容易展示这等同于只要有利可图时就积累利润，如https://discuss.leetcode.com/topic/726/is-this-question-a-joke中提到的。
+ 
+   情况 III: k=2
+   与k=1的情况类似，除了现在我们每天有四个而不是两个变量：T[i][1][0], T[i][1][1], T[i][2][0], T[i][2][1]，递推关系式如下：
+   
+T[i][2][0] = max(T[i-1][2][0], T[i-1][2][1] + prices[i])
+T[i][2][1] = max(T[i-1][2][1], T[i-1][1][0] - prices[i])
+T[i][1][0] = max(T[i-1][1][0], T[i-1][1][1] + prices[i])
+T[i][1][1] = max(T[i-1][1][1], -prices[i])
+ 
+在最后一个方程中我们充分利用了基准情况T[i][0][0]=0，下列解有O(n)的空间复杂度和O(1)
+
+public int maxProfit(int[] prices) {
+    int T_i10 = 0, T_i11 = Integer.MIN_VALUE, T_i20 = 0, T_i21 = Integer.MIN_VALUE;
+        
+    for (int price : prices) {
+        T_i20 = Math.max(T_i20, T_i21 + price);
+        T_i21 = Math.max(T_i21, T_i10 - price);
+        T_i10 = Math.max(T_i10, T_i11 + price);
+        T_i11 = Math.max(T_i11, -price);
+    }
+        
+    return T_i20;
+}
+   
+   情况 IV： k是任意的
+   这是最通用的情况所以在每天我们都需要更新所有的有不同k值的最大利润对应在每天结尾时我们手中有0或1只股票。
+   可是，有一个微笑的优化我们能够做的是如果k超出了一些临界值，超出了最大的利润不再依赖于允许交易的次数而是被可获得的股票数量限制（prices数组的长度），让我们计算出临界值会是什么。
+   一个获利交易花费至少两天（一天买另一天卖，买入价格不少于卖出价格)，如果prices数组的长度是n，最大的获利交易数量是n/2，在这之后没有可能的获益交易，
+这暗示着最大的利润会保持不变。
+   因此，临界k值是n/2，如果给定的k值不小于这个值的时候，换句话说，k>=n/2，我们能够把k拓展到正无穷，问题等价于情况II。
+   下列是时间复杂度为O(kn)，空间复杂度O(k)的解，没有优化，代码能够满足大K值时的时间约束。
+   
+  public int maxProfit(int k, int[] prices) {
+    if (k >= prices.length >>> 1) {
+        int T_ik0 = 0, T_ik1 = Integer.MIN_VALUE;
+    
+        for (int price : prices) {
+            int T_ik0_old = T_ik0;
+            T_ik0 = Math.max(T_ik0, T_ik1 + price);
+            T_ik1 = Math.max(T_ik1, T_ik0_old - price);
+        }
+        
+        return T_ik0;
+    }
+        
+    int[] T_ik0 = new int[k + 1];
+    int[] T_ik1 = new int[k + 1];
+    Arrays.fill(T_ik1, Integer.MIN_VALUE);
+        
+    for (int price : prices) {
+        for (int j = k; j > 0; j--) {
+            T_ik0[j] = Math.max(T_ik0[j], T_ik1[j] + price);
+            T_ik1[j] = Math.max(T_ik1[j], T_ik0[j - 1] - price);
+        }
+    }
+        
+    return T_ik0[k];
+}
+
+解法类似于https://discuss.leetcode.com/topic/8984/a-concise-dp-solution-in-java帖子中的解法，这里我使用了T数组的反向循环来避免使用临时变量。它也被证明不使用临时变量做前向循环也是可能的。
+
+     情况 V：k=+Infinity 有冷却期
+   这个例子相似于情况II更多是由于他们有同样的k值，除了递推式需要简单的修改来满足冷却期的要求。情况II中给出的原始递推式是：
+   
+T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
+T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i])
+
+   但是由于冷却期，我们不能在第i天买入股票如果在第i-1天股票被卖出，因此，在上面的第二个方程中，我们事实上应该用T[i-2][k][0]而不是T[i-1][k][0]
+如果我们打算在第i天买。其他所有都保持不变并且新的递推式是：
+
+T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
+T[i][k][1] = max(T[i-1][k][1], T[i-2][k][0] - prices[i])
+ 
+下面是O（n）时间复杂度和O（1）空间复杂度的解法：
+
+public int maxProfit(int[] prices) {
+    int T_ik0_pre = 0, T_ik0 = 0, T_ik1 = Integer.MIN_VALUE;
+    
+    for (int price : prices) {
+        int T_ik0_old = T_ik0;
+        T_ik0 = Math.max(T_ik0, T_ik1 + price);
+        T_ik1 = Math.max(T_ik1, T_ik0_pre - price);
+        T_ik0_pre = T_ik0_old;
+    }
+    
+    return T_ik0;
+}
+dietpepsi分享了一种非常好的解法，被证明和上述方法相同https://discuss.leetcode.com/topic/30421/share-my-thinking-process
+     情况 VI:k=+Infinity 但有交易费用
+     再一次的这个例子等同于情况ＩＩ因为它们有同样的ｋ值，除了现在的递推关系式需要轻微修改来满足交易费的要求。情况ＩＩ给出的原始递推关系式如下：
+     
+T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
+T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i])
+ 
+因为现在我们需要为每次的交易行为付费，在第ｉ天的购买和出售股票获利中应该减去这个值，因此新的递推关系式应该为下面的任意一种：
+
+
+T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
+T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i] - fee)
+ 
+或 
+
+
+T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i] - fee)
+T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i])
+ 
+注意当我们减去费用时我们有两个选项，这是因为每次交易都会表征为两个成对出现的行为－－买和卖
+费用能够被支付当我们买股票（第一组方程）或当我们卖股票（第二组方程），下列是Ｏ(n)时间复杂度和Ｏ(1)空间复杂度的解法对应于这两项选择，第二个解法我们需要注意可能的溢出。
+ 
+解法 Ｉ－－当买入股票时支付交易费
+
+public int maxProfit(int[] prices, int fee) {
+    int T_ik0 = 0, T_ik1 = Integer.MIN_VALUE;
+    
+    for (int price : prices) {
+        int T_ik0_old = T_ik0;
+        T_ik0 = Math.max(T_ik0, T_ik1 + price);
+        T_ik1 = Math.max(T_ik1, T_ik0_old - price - fee);
+    }
+        
+    return T_ik0;
+}
+ 
+解法 ＩＩ－－当售出股票时支付交易费
+
+public int maxProfit(int[] prices, int fee) {
+    long T_ik0 = 0, T_ik1 = Integer.MIN_VALUE;
+    
+    for (int price : prices) {
+        long T_ik0_old = T_ik0;
+        T_ik0 = Math.max(T_ik0, T_ik1 + price - fee);
+        T_ik1 = Math.max(T_ik1, T_ik0_old - price);
+    }
+        
+    return (int)T_ik0;
+}
+ 
+ＩＩＩ －－总结
+    总之，最通用的股票问题解法能够被表征为三个因素，ｉ天的序号，最大允许的交易次数ｋ和每天结束后我们手中持有的股票数。我已经战术了最大利润和他们终止情况的递推式，Ｏ(nk)时间复杂度和Ｏ(k)空间复杂度。结果被依次应用于六个例子，后两个由于额外的要求做了轻微的修改。我应该提及https://discuss.leetcode.com/user/peterleetcode野介绍了一个很好的解法对于任意k值通用。如果你有兴趣，看一下。
+    希望这能够帮助到你，祝代码写的愉快！
