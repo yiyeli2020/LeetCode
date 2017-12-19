@@ -1,0 +1,22 @@
+class Solution {
+public:
+    void output(vector<int> minlen){
+        for(int i=0;i<minlen.size();i++){
+            cout<<"i="<<i<<"   "<<minlen[i]<<endl;
+        }
+       cout<<"*******************"<<endl;
+    }
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int n=triangle.size();
+        vector<int> minlen(triangle.back());// size is the last row of the triangle
+        //   example:    vector<int> minLen(triangle.back().size(), triangle[0][0]); 
+        // cout<<n<<endl;
+        for(int layer=n-2;layer>=0;layer--){
+            output(minlen);
+            for(int i=0;i<=layer;i++){
+                minlen[i] = min(minlen[i], minlen[i+1])     +triangle[layer][i];
+            }
+        }output(minlen);
+        return minlen[0];        
+    }
+};
