@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int minCostClimbingStairs(vector<int>& cost) {
+        vector<int> dp(cost.size()+1);// note the dp size
+        // if(cost.size()==0) return 0;
+        // else if(cost.size()==1) return cost[0];
+        // else if(cost.size()==2) return min(cost[0],cost[1]);
+        // dp[0]=cost[0];
+        // dp[1]=min(cost[0],cost[1]); output(dp);
+        for(int i=2;i<cost.size()+1;i++){
+            // error dp[i]=min(dp[i-1]+cost[i], dp[i-2]+cost[i]);
+            dp[i]=min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2]); //output(dp);
+        }
+      
+        return dp.back();
+    }
+private:
+    void output(vector<int> dp){
+        for(int c:dp){
+            cout<<c<<"  ";
+        }
+        cout<<endl;
+    }
+};
