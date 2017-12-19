@@ -1,0 +1,29 @@
+class Solution {
+public:
+    void output(vector<int> dp){
+        for(int i=0;i<dp.size();i++){
+            cout<<dp[i]<<" ";
+        }
+        cout<<endl;
+    }
+    int rob(vector<int>& nums) {
+        int len=nums.size();
+        vector<int> dp(len,0);
+        if(len==0) return 0;
+        if(len==1) {dp.push_back(nums[0]);
+                   return dp.back(); }
+        if(len==2) {
+            dp.push_back(nums[0]);
+            dp.push_back(max(nums[0],nums[1]));
+            return dp.back();
+          }
+            dp[0]=nums[0];
+            dp[1]=max(nums[0],nums[1]);
+        //output(dp);
+        for(int i=2;i<len;i++){
+            dp[i]=max(dp[i-1],dp[i-2]+nums[i]);
+        }
+        //output(dp);
+        return dp.back();
+    }
+};
