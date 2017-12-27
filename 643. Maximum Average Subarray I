@@ -1,0 +1,21 @@
+class Solution {
+public:
+    double findMaxAverage(vector<int>& nums, int k) {
+         double globalaverage=INT_MIN;
+         double sum=0;
+         
+         for(int m=0;m<k;m++){
+             sum+= nums[m];
+         }
+         if(nums.size()==k) return sum/k;
+         //cout<<"The first sum="<<sum<<endl;
+          globalaverage=max( globalaverage,sum/k);
+         for(int i=k;i<nums.size();i++){
+             sum   = sum- nums[i-k] + nums[i];    
+            // cout<<"i="<<i<<"   sum="<<sum<<endl;
+             globalaverage=max( globalaverage,sum/k);
+         }
+         return globalaverage;
+        
+    }
+};
