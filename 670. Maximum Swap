@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int maximumSwap(int num) {
+        /*
+        We only need to record a position array (pos[i]) which represent the largest number index form the i position.
+        For instance,
+        input 9 8 6 3 8
+        pos 0 4 4 4 4
+        input[pos] 9 8 8 8 8
+        Therefore, we only need to find the first input[i] != input[pos[i]] and swap it.
+        */
+        string numString=to_string(num);
+        int len=numString.size();
+        vector<int> pos(len,-1);
+        int curMaxPos=len-1;
+        for(int i=len-1;i>=0;i--){
+            if(numString[i]>numString[curMaxPos])
+            { curMaxPos=i;}
+            pos[i]=curMaxPos;
+        }
+        for(int i=0;i<len;i++){
+            if(numString[i] !=numString[pos[i]])
+            {
+            swap(numString[i],numString[pos[i]]);
+            break;
+            }
+        }
+        
+        return stoi(numString);
+    }
+};
