@@ -1,0 +1,43 @@
+class RandomizedSet {
+private:
+    vector<int> nums;
+    unordered_map<int,int> m;
+public:
+    /** Initialize your data structure here. */
+    RandomizedSet() {
+        
+    }
+    
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+    bool insert(int val) {
+        if(m.find(val) != m.end()) return false; // val had already exsits in the set
+        nums.emplace_back(val);
+        m[val] = nums.size()-1;
+        return true;
+    }
+    
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
+    /*  删除操作是比较tricky的，我们还是要先判断其是否在哈希表里，如果没有，直接返回false。由于哈希表的删除是常数时间的，而数组并不是，为了使数组删除也能常数级，我们实际上将要删除的数字和数组的最后一个数字调换个位置，然后修改对应的哈希表中的值，这样我们只需要删除数组的最后一个元素即可，保证了常数时间内的删除。而返回随机数对于数组来说就很简单了，我们只要随机生成一个位置，返回该位置上的数字即可，*/
+    bool remove(int val) {
+        if(m.find(val)== m.end()) return false;//check whether the element is in the hashtable
+        int last= nums.back(); 
+        m[last] = m[val];
+        nums[m[val]]= last;
+        nums.pop_back();
+        m.erase(val); // delete the element in position val
+        return true;
+    }
+    
+    /** Get a random element from the set. */
+    int getRandom() {
+        return nums[rand() % nums.size()];
+    }
+};
+
+/**
+ * Your RandomizedSet object will be instantiated and called as such:
+ * RandomizedSet obj = new RandomizedSet();
+ * bool param_1 = obj.insert(val);
+ * bool param_2 = obj.remove(val);
+ * int param_3 = obj.getRandom();
+ */
