@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+       unordered_map<string,multiset<string>> mp;
+       for(string s:strs){
+            string t=s;
+            sort(t.begin(), t.end());
+        //    cout<<t<<"  "<<s<<endl;
+            mp[t].insert(s);
+        }
+        vector<vector<string>> anagrams; 
+       // cout<<"*******************"<<endl;
+        for(auto m:mp){
+            vector<string> anagram(m.second.begin(), m.second.end());
+            // for(int i=0;i<anagram.size();i++){
+            //     cout<<anagram[i]<<"  ";
+            // }cout<<endl;
+            
+            anagrams.push_back(anagram);
+        }
+        return anagrams;
+    }
+};
