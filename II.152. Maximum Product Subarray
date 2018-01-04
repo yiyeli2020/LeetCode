@@ -1,0 +1,26 @@
+class Solution {
+public:
+    /*
+        case: negaive number * negaive number
+    */
+    int maxProduct(vector<int>& nums) {
+        if(nums.size()==0)
+            return 0;
+        
+        int maxherepre=nums[0];
+        int minherepre=nums[0];
+        int maxsofar=nums[0];
+        int maxhere,minhere;
+        for(int i=1;i<nums.size();i++){
+            maxhere=max(max(maxherepre *nums[i], minherepre * nums[i]), nums[i]);
+            // the max of the product subarray end at i
+            minhere=min(min(maxherepre *nums[i], minherepre * nums[i]), nums[i]);
+            maxsofar=max(maxhere,maxsofar);
+          //  cout<<"nums["<<i<<"]="<<nums[i]<<"  maxhere="<<maxhere<<"  minhere="<<minhere<<"  maxherepre="<<maxherepre<<"  minherepre="<<minherepre<<"  maxsofar="<<maxsofar<<endl;
+            maxherepre= maxhere;
+            minherepre=minhere;
+        }
+        
+        return maxsofar;
+    }
+};
