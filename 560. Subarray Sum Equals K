@@ -1,0 +1,18 @@
+class Solution {
+public:
+    //先一个For过去，记录下每次前缀和的出现的次数。对于查找第K大的，那么只要对于当前的前缀和，找到其减去K之后数字，它出现的次数，加一下就行了。因为对于当前数列的前缀和，他一定是从1到N，所以减掉K之后，一定是满足连续的这个条件的。
+    int subarraySum(vector<int>& nums, int k) {
+         int cum=0; //cumulated sum
+         map<int,int> rec; //prefix sum recorder  //store the cum
+         int cnt=0;  // number of found subarray
+         rec[0]++;  // to take into account those subarrays that begin with index 0
+         for(int i=0;i<nums.size();i++){
+             cout<<"nums["<<i<<"]="<<nums[i]<<"  cum="<<cum<<"  cnt="<<cnt<<"  k="<<k<<"  rec[cum-k]=rec["<<cum-k<<"]="<<rec[cum-k]<<"  rec[cum]=rec["<<cum<<"]="<<rec[cum]<<endl;
+             cum+= nums[i];
+             cnt += rec[cum-k];
+             rec[cum]++;// record the subarrays sum  appear frequency
+             cout<<"nums["<<i<<"]="<<nums[i]<<"  cum="<<cum<<"  cnt="<<cnt<<"  k="<<k<<"  rec[cum-k]=rec["<<cum-k<<"]="<<rec[cum-k]<<"  rec[cum]=rec["<<cum<<"]="<<rec[cum]<<endl<<"*******************************************"<<endl;
+         }
+         return cnt;
+    }
+}; 
