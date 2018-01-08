@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int findContentChildren(vector<int>& g, vector<int>& s) {
+        int num=0;
+        sort(g.begin(),g.end());
+//         for(int i=0;i<g.size();i++){
+//             cout<<g[i]<<"  ";
+//         }cout<<endl;
+        
+        sort(s.begin(),s.end());
+        // for(int i=0;i<s.size();i++){
+        //     cout<<s[i]<<"  ";
+        // }cout<<endl;
+        
+        for(int i=0, j=0;i<g.size() && j<s.size(); ){
+            //cout<<"i="<<i<<"     j="<<j<<"  num="<<num<<endl;
+            if(g[i]<=s[j]) {
+                num++;
+                i++;
+                j++;
+            }
+            else {
+           //  while(g[i]>s[j]){
+                // cout<<j<<" ";
+                 j++;
+                 //}
+          //  cout<<endl;
+            }
+        }
+        return num;
+        
+    }
+};
