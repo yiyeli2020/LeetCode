@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        unordered_map<char,int> mp;
+        int count=0;// record the max number of the paticular tasks
+        for(auto e:tasks){
+            mp[e]++;
+            count=max(count,mp[e]);
+        }
+        /*
+        If you have n identical tasks and need to separate by k steps, it needs (k+1)\(n-1) + 1* steps. If you have m tasks all appear n times, it would take (k+1)\(n-1) + m* when m <= k. All other tasks should be able to fill in the empty steps.
+        If all empty steps are filled out, then we do not need empty steps, the overall cost would be the size of input tasks. 
+        */
+        int ans=(count-1)*(n+1);
+        for(auto e:mp) if(e.second==count) ans++;
+        return max((int) tasks.size(),ans);
+    }
+};
