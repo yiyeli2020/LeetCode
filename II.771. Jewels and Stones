@@ -1,0 +1,12 @@
+class Solution {
+public:
+    int numJewelsInStones(string J, string S) {
+        int cnt=0;
+       set<int> jewel(J.begin(),J.end());
+        for(auto s:S){
+           // if(jewel.find(s)!=jewel.end()) cnt++;
+            if(jewel.count(s)) cnt++;
+        }
+        return cnt;
+    }
+};
