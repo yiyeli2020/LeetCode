@@ -1,0 +1,42 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> result;
+    int minDiffInBST(TreeNode* root) {
+        if(root==NULL) return 0;
+        inOrderRecur(root);
+        int localmin=0;
+        int globalmin=(result[0]> result[1] )? (result[0]-result[1]) : (result[1]-result[0]);
+        int len=result.size();
+        //output(result, len);
+        for(int i=0;i<len-1;i++){
+            localmin= (result[i]> result[i+1] )? (result[i]-result[i+1]) : (result[i+1]-result[i]);
+            //cout<<"localmin="<<localmin<<"   globalmin="<<globalmin<<endl;
+            globalmin=min(globalmin, localmin);
+        }
+        return globalmin;
+    }
+private:
+    void inOrderRecur(TreeNode* root)  
+{  
+    if(root == NULL)  
+        return;  
+    inOrderRecur(root->left);  
+    result.push_back(root->val); 
+    inOrderRecur(root->right);  
+}  
+  void output(vector<int> res,int len){
+      for(int i=0;i<len;i++){
+          cout<<res[i]<<"  ";
+      }
+      cout<<endl;
+  }
+};
