@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int numRabbits(vector<int>& answers) {
+        unordered_map<int,int> res;
+        int len=answers.size();
+        for(int i=0;i<len;i++){
+            res[answers[i]]++;
+        }
+        int sum=0;
+        for(auto r:res){
+            sum+=(r.first+r.second)/(r.first+1)*(r.first+1);
+        }
+        return sum;
+    }
+};
