@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        unordered_map<char,int> map;
+        int len=s.size();
+        for(int i=0;i<len;i++){
+            map[s[i]]++;
+        }
+       int index=-1;
+        for(int i=0;i<len;i++){
+            if(map[s[i]]==1) {
+                index=i;
+                break;
+            }
+        }
+        return index;
+    }
+};
