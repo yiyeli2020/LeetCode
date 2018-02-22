@@ -1,0 +1,45 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    // vector<int> postorderTraversal(TreeNode* root) {
+    //     vector<int> res;
+    //     if(root==NULL) return res;
+    //     postorder(root,res);
+    //     return res;
+    // }
+    // void postorder(TreeNode *root, vector<int> &res){
+    //     if(root->left!=NULL)
+    //     postorder(root->left,res);
+    //     if(root->right!=NULL)
+    //     postorder(root->right,res);
+    //     res.push_back(root->val);
+    // }
+    
+     vector<int> postorderTraversal(TreeNode* root) {
+     vector<int> v;
+    if (!root) return v;
+    
+    stack<TreeNode *> s;
+    s.push(root);
+    
+    TreeNode *p = NULL;
+    while(!s.empty()) {
+        p = s.top();
+        s.pop();
+        v.insert(v.begin(), p->val);
+        //可以在vector对象的任意位置前插入一个新的元素，书上说，insert()方法要求插入的位置，是元素迭代器的位置，而不是元素的下标
+        if (p->left) s.push(p->left);
+        if (p->right) s.push(p->right);
+    }
+    
+    return v;
+    }
+};
