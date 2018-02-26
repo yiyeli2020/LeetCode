@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        vector<int> counts(26,0);//26个字符的数量
+        int start=0;
+        int maxCharCount=0;//窗口内最多字符的计数maxCharCount
+        int n=s.length();
+        int result=0;
+        //滑动窗口[start,end]
+        for(int end=0;end<n;end++){
+            counts[s[end]-'A']++;
+            if(maxCharCount<counts[s[end]-'A']){
+                maxCharCount=counts[s[end]-'A'];
+            }//寻找最多字符数量
+            while(end-start-maxCharCount+1>k){
+                counts[s[start]-'A']--;
+                start++;//若最多字符的计数加上修改数量仍不能使窗口内的字符统一的话需要把窗口缩小，缩小窗口时把窗口计数更新一下
+                for(int i=0;i<26;i++){//重新寻找最多字符数量
+                    if(maxCharCount<counts[i]){
+                        maxCharCount=counts[i];
+                    }
+                }
+            }
+            result=max(result,end-start+1);
+        }
+        return result;
+    }
+};
