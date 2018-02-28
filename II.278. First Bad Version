@@ -1,0 +1,24 @@
+// Forward declaration of isBadVersion API.
+bool isBadVersion(int version);
+class Solution {
+public:
+    int firstBadVersion(int n) {
+        int left=1,right=n,mid;
+        while(left<right){
+            mid=left+((right-left)>>1);
+           //error: if(!firstBadVersion(mid)) left=mid+1;
+            if(!isBadVersion(mid)) left=mid+1;
+            else right=mid;
+            cout<<"mid="<<mid<<"   left="<<left<<"   right="<<right<<endl;
+        }
+        return left;
+        
+        // int lower = 1, upper = n, mid;
+        // while(lower < upper) {
+        //     mid = lower + (upper - lower) / 2;
+        //     if(!isBadVersion(mid)) lower = mid + 1;   /* Only one call to API */
+        //     else upper = mid;
+        // }
+        // return lower;   /* Because there will alway be a bad version, return lower here */
+    }
+};
