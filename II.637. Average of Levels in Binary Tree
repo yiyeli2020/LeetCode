@@ -1,0 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<double> averageOfLevels(TreeNode* root) {
+        vector<double> res;
+        if(!root) return res;
+        deque<TreeNode*> deq;
+        deq.push_back(root);
+        while(!deq.empty()){
+            int len=deq.size();
+            double temp=0;
+            for(int i=0;i<len;i++){
+                TreeNode* node=deq.front();
+               // cout<<"len="<<len<<"   node->val="<<node->val<<endl;
+                temp=temp+node->val;
+                deq.pop_front();
+                if(node->left) deq.push_back(node->left);
+                if(node->right) deq.push_back(node->right);
+            }
+            res.push_back((double)temp/len);
+        }
+        return res;
+    }
+};
