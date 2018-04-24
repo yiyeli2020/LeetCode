@@ -1,0 +1,29 @@
+class Solution {
+public:
+    void output(vector<int> nums,map<int,int> rec){
+        // cout<<endl<<"nums: ";
+        // for(int i=0;i<nums.size();i++){
+        //     cout<<nums[i]<<" ";
+        // }cout<<endl;
+        cout<<endl<<"map<int,int> rec:  "<<endl;
+        for(auto m: rec){
+            cout<<m.first<<","<<m.second<<endl;
+        }
+        
+    }
+    //如果有人看过算法珠玑第八章的程序设计。一定会有这样的思路，就是计算出前i个元素的累加和。那么要判断[i,j]之间数值和就是计算cum[j]-cum[i-1]的数值是否为k。我们可以建立一个hashmap来存储cum，具体看代码。
+    int subarraySum(vector<int>& nums, int k) {
+        int sum=0;// cumulated sum
+        map<int,int> rec;// prefix sum recorder
+        int cnt=0;// number of found subarray
+        rec[0]++;// to take into account those subarrays that begin with index 0
+        for(int i=0;i<nums.size();i++){
+            sum+=nums[i];
+            cnt+=rec[sum-k];
+            rec[sum]++;
+            // cout<<"sum="<<sum<<"   i="<<i<<"   cnt="<<cnt;
+            // output(nums,rec);
+        }
+        return cnt;
+    }
+};
