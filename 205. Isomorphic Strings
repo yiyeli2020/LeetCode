@@ -1,0 +1,25 @@
+class Solution {
+public:
+    void output(int m1[256], int m2[256]){
+        for(int i=0;i<256;i++){
+            cout<<m1[i]<<"   ";
+        } cout<<endl<<"***************"<<endl;
+        for(int i=0;i<256;i++){
+            cout<<m2[i]<<"   ";
+        } cout<<endl<<"***************"<<endl;
+    }
+    bool isIsomorphic(string s, string t) {
+        //m1,m2记录的是第i个字母上一次出现的位置，若不同则返回false，若相同则将位置更新
+        int m1[256] = {0}, m2[256] = {0}, n = s.size();
+        for (int i = 0; i < n; ++i) {
+            if (m1[s[i]] != m2[t[i]]) return false;
+            m1[s[i]] = i + 1;
+            m2[t[i]] = i + 1;
+            // cout<<"m1[s[i]]="<<m1[s[i]]<<endl;
+            // cout<<"m2[t[i]]="<<m2[t[i]]<<endl;
+            // cout<<"***********"<<endl;
+            // output(m1,m2);
+        }
+        return true;
+    }
+};
