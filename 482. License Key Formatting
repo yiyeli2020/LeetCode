@@ -1,0 +1,38 @@
+class Solution {
+public:
+    string licenseKeyFormatting(string S, int K) {
+        vector<char> ch;
+        for(int i=0;i<S.size();i++){
+            if(S[i]!='-') ch.push_back(S[i]);
+        }
+        string s="";
+        if(ch.size()<K){
+            for(int i=0;i<ch.size();i++){
+                s+=toupper(ch[i]);
+            }
+        }
+        else if(ch.size()%K!=0){
+            for(int i=0;i<ch.size()%K;i++){
+                s+=toupper(ch[i]);
+            }
+            s+="-";
+            int num=0;
+            for(int j=ch.size()%K;j<ch.size();j++){
+                s+=toupper(ch[j]);
+                num++;
+                if(num%K==0 && num!=ch.size()-ch.size()%K) s+='-';
+            }
+            
+        }
+        else{
+            int num=0;
+            for(int j=0;j<ch.size();j++){
+                s+=toupper(ch[j]);
+                num++;
+                if(num%K==0 && num!=ch.size()) s+='-';
+            }
+        }
+        
+        return s;
+    }
+};
