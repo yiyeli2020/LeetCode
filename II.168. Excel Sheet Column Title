@@ -1,0 +1,13 @@
+class Solution {
+public:
+    string convertToTitle(int n) {
+        string alpha="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        string res;
+         while(n){
+            n--;
+            res=alpha[n%26]+res;
+            n=n/26;
+        }
+        return res;
+    }
+};
