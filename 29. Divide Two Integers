@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+        // 我们知道任何一个整数可以表示成以2的幂为底的一组基的线性组合，即num=a_0*2^0+a_1*2^1+a_2*2^2+...+a_n*2^n。基于以上这个公式以及左移一位相当于乘以2，我们先让除数左移直到大于被除数之前得到一个最大的基。然后接下来我们每次尝试减去这个基，如果可以则结果增加加2^k,然后基继续右移迭代，直到基为0为止。因为这个方法的迭代次数是按2的幂直到超过结果，所以时间复杂度为O(logn)。代码如下：
+    	long long b = dividend, a = divisor;	//	we will find b/a, long long for overcoming bits overflow;
+        bool sign, signa, signb;	
+
+        if(a>0) signa=0; else signa=1;          //  getting sign for operands,
+        if(b>0) signb=0; else signb=1;
+
+        sign = signa ^ signb;	    //	determine sign of the quotient, exclusive or
+
+        if(signa) a = -a;		    // removing sign of operands
+        if(signb) b = -b;
+
+        long long q=0, t=0, r=1;	// q to store the quotient, t for accumulating values for the division process 
+        
+        for (int i = 31; i >= 0; i--)               // checking with highest bit 
+            if ( (t + (a << i) ) <= b) {
+                t += (a << i);                  //  accumulating the values for dividend
+                q |= (r << i);                  //  accumulating the values for quotient     
+            }
+        
+    if (sign) q = -q;       //  assigning back the sign
+
+    return (q >= INT_MAX || q < INT_MIN) ? INT_MAX : q;     //  according to problem definition.
+    
+    }
+};
