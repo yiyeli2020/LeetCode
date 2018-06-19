@@ -1,0 +1,18 @@
+class Solution {
+public:
+    bool hasAlternatingBits(int n) {
+        bool flag=true;
+        int temp=1&n;
+        while(n){
+            n=n>>1;
+            if(temp^(1&n)!=1) {flag=false;
+                                cout<<temp<<"   temp^(n>>1)=";
+                                // cout<<temp^(1&n)<<" ";
+                               }
+            cout<<n<<endl;
+            
+            temp=1&n;
+        }
+        return flag;
+    }
+};
