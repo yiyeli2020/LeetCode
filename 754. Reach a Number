@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int reachNumber(int target) {
+        /*
+        那么，我们的第二个trick就是，当超过目标值的差值d为偶数时，只要将第d/2步的距离取反，就能得到目标值，
+        此时的步数即为到达目标值的步数。
+        那么，如果d为奇数时，且当前为第n步，那么我们看下一步n+1的奇偶，如果n+1为奇数，那么加上n+1再做差，得到的差值就为偶数了，
+        问题解决，如果n+1为偶数，那么还得加上n+2这个奇数，才能让差值为偶数，这样就多加了两步。
+        分析到这里，我们的解题思路也就明晰了吧：     
+        */
+        target=abs(target);//我们先对target取绝对值，因为正负不影响最小步数。
+        long long n=ceil((-1.0+sqrt(1+8.0*target))/2);//ceil 返回大于等于指定表达式的最小整数, 然后我们求出第n步，使得从1累加到n刚好大于等于target，我们可以反向利用求和公式，来求解出n，
+        long long sum=n*(n+1)/2;// 然后算出当前n的累加和sum，
+        if(sum==target) return n;//如果此时sum和target正好相等，perfect！直接返回n，
+        long long res=sum-target;//否则就是计算差值，
+        if((res&1)==0)//如果差值时偶数，那么也直接返回n
+            return n;
+        else return n+((n&1)? 2:1);//如果是奇数，判断此时n的奇偶，如果n是奇数，则返回n+2，若n是偶数，返回n+1
+
+    }
+};
