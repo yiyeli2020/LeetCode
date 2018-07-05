@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        vector<vector<int>> res;
+        vector<int> out;
+        if(nums.empty()) return {};
+        sort(nums.begin(),nums.end());
+        backtrack(nums,out,res,0);
+        return res;
+    }
+private:
+    void backtrack(vector<int> &nums,vector<int> &out,vector<vector<int>> &res,int pos){
+        if(find(res.begin(),res.end(),out)==res.end())　//没有在res数组中找到ｏｕｔ
+            res.push_back(out);
+        for(int i=pos;i<nums.size();i++){
+            out.push_back(nums[i]);
+            backtrack(nums,out,res,i+1);
+            out.pop_back();
+        }
+    }
+};
