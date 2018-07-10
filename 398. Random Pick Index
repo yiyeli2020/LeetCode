@@ -1,0 +1,25 @@
+class Solution {
+public:
+    Solution(vector<int> nums) :arr(nums) {
+        
+    }
+    
+    int pick(int target) {
+        int index=-1,cnt=0;
+        for(int i=0;i<arr.size();i++){
+            if(target==arr[i]){
+                cnt++;
+                if(rand()%cnt== 0) index=i;
+            }
+        }
+        return index;
+    }
+private:
+    vector<int> arr;
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(nums);
+ * int param_1 = obj.pick(target);
+ */
