@@ -1,0 +1,13 @@
+class Solution {
+public:
+    bool isPerfectSquare(int num) {
+        bool res=false;
+        if(num<1) return res;
+        else if(num==1) return true;
+        for(int i=2;i<=num/2;i++){
+            if(i*i==num) res=true;
+        }
+        
+        return res;
+    }
+};
