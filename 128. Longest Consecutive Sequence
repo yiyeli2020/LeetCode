@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        if(nums.empty()) return 0;
+        priority_queue<int> q;
+        int maxlen=1;
+        int locallen=1;
+        
+        for(int i=0;i<nums.size();i++){
+            q.push(nums[i]);
+        }
+        int great=q.top();
+        q.pop();
+        while(!q.empty()){
+            if(great-q.top()==1 ) locallen++;
+            else if(great-q.top()!=0 && great-q.top()!=1) locallen=1;
+            
+            maxlen=max(maxlen,locallen);
+            //cout<<"locallen="<<locallen<<"   maxlen="<<maxlen<<"   q.top()="<<q.top()<<"   great="<<great<<endl;
+            
+            great=q.top();
+            q.pop();
+        }
+        return maxlen;
+    }
+};
