@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        vector<int> res;
+        int len=nums.size();
+        if(len<1) return res;
+        else if(len==1) {res.push_back(nums[0]); return res;}
+        int len1=0,len2=0;
+        int temp1=0,temp2=0;
+        // find the two candidate
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]==temp1) len1++;
+            else if(nums[i]==temp2) len2++;
+            else if(len1<1) {
+                len1=1;
+                temp1=nums[i];
+            }
+            else if(len2<1){
+                len2=1;
+                temp2=nums[i];
+            }
+            else{
+                len1--;
+                len2--;
+            }
+        }
+        cout<<"len1="<<len1<<"    len2="<<len2<<"    nums1="<<temp1<<"   nums2="<<temp2<<endl;
+        //jduge
+        len1=0,len2=0;
+        for(int i=0;i<len;i++){
+            if(nums[i]==temp1) len1++;
+            else if(nums[i]==temp2) len2++;
+        }
+        cout<<"len1="<<len1<<"    len2="<<len2<<"    nums1="<<temp1<<"   nums2="<<temp2<<endl;
+        if(len1>len/3)   res.push_back(temp1);
+        if(len2>len/3)   res.push_back(temp2);
+        
+        
+        return res;
+    }
+};
