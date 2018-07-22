@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int level(vector<int> nums,int target){
+        for(int i=0;i<nums.size();i++){
+            if(target==nums[i]) return i+1;
+        }
+    }
+    vector<string> findRelativeRanks(vector<int>& nums) {
+        vector<int> order(nums);
+        sort(order.begin(),order.end(),greater<int>());//big to small
+        int lev;
+        vector<string> res;
+        for(int i=0;i<nums.size();i++){
+            lev=level(order,nums[i]);
+            if(lev==1) res.push_back("Gold Medal");
+            else if(lev==2) res.push_back("Silver Medal");
+            else if(lev==3) res.push_back("Bronze Medal");
+            else if(lev>3) res.push_back(to_string(lev));
+        }
+        return res;
+    }
+};
