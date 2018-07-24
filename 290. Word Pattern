@@ -1,0 +1,33 @@
+class Solution {
+public:
+    bool wordPattern(string pattern, string str) {
+//用哈希表来做，建立模式字符串中每个字符和单词字符串每个单词之间的映射，而且这种映射必须是一对一关系的，不能'a‘和’b'同时对应‘dog'，所以我们在碰到一个新字符时，首先检查其是否在哈希表中出现，若出现，其映射的单词若不是此时对应的单词，则返回false。如果没有在哈希表中出现，我们还要遍历一遍哈希表，看新遇到的单词是否已经是哈希表中的映射，如果没有，再跟新遇到的字符建立映射，
+        
+        
+        unordered_map<string,char> mapping;//用哈希表来做，建立模式字符串中每个字符和单词字符串每个单词之间的映射
+        unordered_set<char> takenchar;//不允许重复的无序集合
+        
+        int index = 0, i = 0;
+        string s = "";
+        while(index < str.size() && i < pattern.size()){
+            s = "";
+            while(index < str.size() && str[index] != ' ')//加入一个新单词
+                s+=str[index++];
+            //碰到一个新字符时，首先检查其是否在哈希表中出现
+            if(mapping.find(s) == mapping.end() && takenchar.find(pattern[i]) == takenchar.end()){//如果没有在哈希表中出现，我们还要遍历一遍哈希表，看新遇到的单词是否已经是哈希表中的映射，如果没有，再跟新遇到的字符建立映射
+                mapping[s] = pattern[i]; //建立单词和字符的映射
+                takenchar.insert(pattern[i]);
+            }else if(mapping.find(s) == mapping.end()) //在单词哈希表中没有找到对应的
+                    return false;
+            
+            if(mapping[s] != pattern[i]) // 若出现，其映射的单词若不是此时对应的单词，则返回false
+                return false;
+            
+            index++;
+            i++;
+        }
+        
+        return index >= str.size() && i >= pattern.size();
+
+    }
+};
