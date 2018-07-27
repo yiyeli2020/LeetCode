@@ -1,0 +1,15 @@
+class Solution {
+public:
+    string intToRoman(int num) {
+        string M[]={"","M","MM","MMM"};//thousand
+        string C[]={"","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"};//hundred
+        string X[]={"","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"};//ten
+        string I[]={"","I","II","III","IV","V","VI","VII","VIII","IX"};
+        string res="";
+        res+=M[num/1000];
+        res+=C[(num%1000)/100];
+        res+=X[(num%100)/10];
+        res+=I[num%10];
+        return res;
+    }
+};
