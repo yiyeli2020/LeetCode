@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        vector<int> hold(prices.size(),0);
+        vector<int> free(prices.size(),0);
+        if(prices.size()==0) return 0;
+        hold[0]=-prices[0];
+        free[0]=0;
+        //cout<<"hold[i]="<<hold[0]<<"  free[i]="<<free[0]<<endl;
+        if(prices.size()==1) return max(hold[0],free[0]);
+        hold[1]=max(hold[0],free[0]-prices[1]);//此处因为还没有卖过所以不受冷冻期影响
+        free[1]=max(free[0],hold[0]+prices[1]);
+       // cout<<"hold[i]="<<hold[1]<<"  free[i]="<<free[1]<<endl;
+        for(int i=2;i<prices.size();i++){
+            hold[i]=max(hold[i-1],free[i-2]-prices[i]);
+            free[i]=max(free[i-1],hold[i-1]+prices[i]);
+         //   cout<<"hold[i]="<<hold[i]<<"  free[i]="<<free[i]<<endl;
+        }
+        return max(hold[prices.size()-1],free[prices.size()-1]);
+        
+    
+    }
+};
