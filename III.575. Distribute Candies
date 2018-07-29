@@ -1,0 +1,11 @@
+class Solution {
+public:
+    int distributeCandies(vector<int>& candies) {
+        set<int> can;
+        for(auto c: candies){
+            can.insert(c);
+        }
+        return can.size()<candies.size()/2 ? can.size() : candies.size()/2;
+        
+    }
+};
