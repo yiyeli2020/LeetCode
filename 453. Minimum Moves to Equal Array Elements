@@ -1,0 +1,20 @@
+class Solution {
+public:
+    /*每次都要找到最大的元素max和最小的元素min，
+    那么我们可以先将数组变成有序数组，那么每次迭代的max和min都在数组的两端。
+    而且，在每次迭代中，我们通过max-min次迭代使得min和max相等，其它元素也相应增加max-min，
+    这样使得前n-1个元素仍然构成一个有序数组，而且第一个元素仍然是最小的元素min’，
+    而最大的元素现在是第n-1个元素max’，所以重复以上步骤直到迭代到第一个元素，这样问题就简化了。
+    此外，在这里的每次迭代中，尽管前n-i个元素都增加了相应的max-min次，但是它们之间的差值是不变的，而我们要计算的步数moves正好是每次迭代中，max和min的差值，这样问题又再一次简化。
+    最后只需要做一次排序，然后把其它元素和第一个元素之间的差值加起来就能得到我们需要的moves了。*/
+    int minMoves(vector<int>& nums) {
+        if(nums.empty()) return 0;
+        sort(nums.begin(),nums.end());
+        int diff=0,i=nums.size()-1;
+        while(i>=0){
+            diff+=nums[i]-nums[0];
+            i--;
+        }
+        return diff;
+    }
+};
