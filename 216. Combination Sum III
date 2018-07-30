@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<int> combination;
+        vector<vector<int>> res;
+        dfssolve(n,res,combination,1,k,0);
+        return res;
+    }
+private:
+    void dfssolve(int n,vector<vector<int>> &res,vector<int> &combination,int begin,int k,int sum){
+       if(combination.size()==k && sum==n ){
+           res.push_back(combination);
+           return;
+       }
+        for(int i=begin;i<10;i++){
+            combination.push_back(i);
+            dfssolve(n,res,combination,i+1,k,sum+i);
+            combination.pop_back();
+        }
+    }
+};
