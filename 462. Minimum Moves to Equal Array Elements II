@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int minMoves2(vector<int>& nums) {
+        // int len=nums.size();
+        // int diff=0;
+        // sort(nums.begin(),nums.end());
+        // if(len%2==1){
+        //     int mid=nums[len/2];
+        //    for(auto n:nums){
+        //        diff+=abs(n-mid);
+        //    }
+        //     return diff;
+        // }
+        // if(len%2==0){
+        //     int mid=nums[len/2];
+        //     int mid2=nums[len/2-1];
+        //     int diff2=0;
+        //     for(auto n:nums){
+        //         diff+=abs(n-mid);
+        //         diff2+=abs(n-mid2);
+        //     }
+        //     return min(diff,diff2);
+        // }
+         //STL中的nth_element()方法的使用 通过调用nth_element(start, start+n, end) 方法可以使第n大元素处于第n位置（从0开始,其位置是下标为 n的元素），并且比这个元素小的元素都排在这个元素之前，比这个元素大的元素都排在这个元素之后
+        nth_element(nums.begin(),nums.begin() + nums.size() / 2, nums.end());  // Puts the median in place
+        
+        
+        int med = nums[nums.size() / 2];
+        int tot = 0;
+
+        for(int i = 0; i < nums.size()/2; ++i)
+            tot += med - nums[i];
+        
+        for(int i = nums.size() / 2; i < nums.size(); ++i)
+            tot += nums[i] - med;
+        
+        
+        return tot;
+    }
+};
