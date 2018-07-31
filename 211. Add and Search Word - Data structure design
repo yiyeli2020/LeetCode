@@ -1,0 +1,56 @@
+class TrieNode{
+public:
+    bool isKey;//The field isKey is to label whether the string comprised of characters starting from root to the current node is a key (word that has been added).
+    TrieNode* children[26];/* In this problem, only lower-case letters a - z need to be considered, so each TrieNode has at most 26 children. I store it in an array of TrieNode*: children[i] corresponds to letter 'a' + i. The remaining code defines the constructor of the TrieNode class.*/
+    TrieNode(): isKey(false){
+        memset(children,NULL,sizeof(TrieNode*) *26);//将已开辟内存空间children的前sizeof(TrieNode*)*26个字节的值设置为NULL
+    }
+};
+class WordDictionary {
+public:
+    /** Initialize your data structure here. */
+    WordDictionary() {
+        root=new TrieNode();
+    }
+    
+    /** Adds a word into the data structure. */
+    void addWord(string word) {
+        TrieNode *cur=root;
+        for(char c:word){
+            if(!(cur->children[c-'a'])) cur->children[c-'a']=new TrieNode();//字符对应的子节点为空时新建一个节点
+            cur=cur->children[c-'a'];
+        }
+        cur->isKey=true;//置为true说明到此为单词末尾
+    }
+    
+    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
+    bool search(string word) {
+        return query(word.c_str(),root);//c_str()：生成一个const char*指针，指向以空字符终止的数组, I pass a char* instead of string to query and it greatly speeds up the code
+    }
+private:
+    TrieNode *root;
+    bool query(const char* word,TrieNode* node){
+        TrieNode *cur=node;
+        for(int i=0;word[i];i++){
+            if(cur && word[i]!='.'){
+                cur=cur->children[word[i]-'a'];
+            }
+            else if(cur && word[i]=='.'){//Each time when we reach a ., just traverse all the children of the current node and recursively search the remaining substring in word starting from that children
+                TrieNode *temp=cur;
+                for(int j=0;j<26;j++){
+                    cur=temp->children[j];
+                    if(query(word+i+1,cur)) return true;
+                }
+            }
+            else break;
+        }
+        return cur && cur->isKey;
+    }
+};
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * bool param_2 = obj.search(word);
+ */
