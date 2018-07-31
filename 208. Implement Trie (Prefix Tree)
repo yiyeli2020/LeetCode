@@ -1,0 +1,62 @@
+class Trie {
+private:
+    struct TrieNode{
+        map<char,TrieNode*> myMap;//理解为char 是当前节点值，TrieNode*是指针
+        bool eoF;  //标记该结点处是否构成单词 
+    };
+    TrieNode *root;
+public:
+    /** Initialize your data structure here. */
+    Trie() {
+        root=new TrieNode();
+    }
+    
+    /** Inserts a word into the trie. */
+    void insert(string word) {
+         TrieNode *current=root;
+        for(int i=0;i<word.size();i++){
+            if(current->myMap.find(word[i])!=current->myMap.end()){ //word 中第i个字符已经存在
+                current=current->myMap[word[i]];
+                if(i==word.size()-1) current->eoF=true;//当前节点是一个单词的结尾
+            }
+            else{
+                TrieNode *temp=new TrieNode();
+                temp->eoF=(i==word.size()-1) ? true: false;
+                current->myMap[word[i]]=temp;
+                current=temp;
+            }
+        }
+    }
+    
+    /** Returns if the word is in the trie. */
+    bool search(string word) {
+        TrieNode *current=root;
+        for(int i=0;i<word.size();i++){
+            if(current->myMap.find(word[i])!=current->myMap.end()){ //word 中第i个字符已经存在
+                current=current->myMap[word[i]];
+            }
+            else return false;
+        }
+        return current->eoF? true:false;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWith(string prefix) {
+        TrieNode *current=root;
+        for(int i=0;i<prefix.size();i++){
+            if(current->myMap.find(prefix[i])!=current->myMap.end()) //prefix 中第i个字符已经存在
+                current=current->myMap[prefix[i]];
+            else
+                return false;
+        }
+        return true;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * bool param_2 = obj.search(word);
+ * bool param_3 = obj.startsWith(prefix);
+ */
