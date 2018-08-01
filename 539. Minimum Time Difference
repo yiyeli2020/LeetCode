@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int findMinDifference(vector<string>& timePoints) {
+        sort(timePoints.begin(), timePoints.end(),compare);
+       /// output(timePoints);
+        int mindif=24*60+1;
+        for(int i=1;i<timePoints.size();i++){
+            mindif=min(mindif,dif(timePoints[i-1],timePoints[i]));
+           // cout<<"mindif="<<mindif<<endl;
+        }
+        mindif=min(mindif,dif(timePoints[timePoints.size()-1],timePoints[0]));
+        //cout<<"mindif="<<dif(timePoints[timePoints.size()-1],timePoints[0])<<endl;
+        return mindif;
+    }
+private:
+    static bool compare(string a, string b){
+        return a<b;
+    }
+    void output(vector<string> s){
+        for(int i=0;i<s.size();i++){
+            cout<<s[i]<<" ";
+        }cout<<endl;
+    }
+    int dif(string a,string b){
+        int timea=10*60*(a[0]-'0') + 60*(a[1]-'0') + 10 *(a[3]-'0') +( a[4]-'0');
+        int timeb=10*60*(b[0]-'0') + 60*(b[1]-'0') + 10 *(b[3]-'0') + (b[4]-'0');
+        return min(abs(timeb-timea),abs(24*60-abs(timeb-timea)));
+    }
+};
