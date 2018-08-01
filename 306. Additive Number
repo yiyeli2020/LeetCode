@@ -1,0 +1,42 @@
+class Solution {
+public:
+    /*
+    我们让第一个数字先从一位开始，第二个数字从一位，两位，往高位开始搜索，前两个数字确定了，相加得到第三位数字，三个数组排列起来形成一个字符串，和原字符串长度相比，如果小于原长度，那么取出上一次计算的第二个和第三个数，当做新一次计算的前两个数，用相同的方法得到第三个数，再加入当前字符串，再和原字符串长度相比，以此类推，直到当前字符串长度不小于原字符串长度，比较两者是否相同，相同返回true，不相同则继续循环。如果所有情况都遍历完了还是没有返回true
+    */
+    bool isAdditiveNumber(string num) {
+        if(!num.size() || num.size()<3) return false;
+        int first=0,second=0;
+        for(int i=0;i<num.size()-2;i++){
+            if(i>0 && num[0]=='0') break;
+            first*=10,first+=(num[i]-'0');
+            second=0;
+            for(int j=i+1;j<num.size()-1;j++){
+                if(j>i+1 && num[i+1]=='0') break;
+                second*=10,second+=(num[j]-'0');
+                if(check(first,second,j+1,num)) return true;
+            }
+            
+        }
+        return false;
+    }
+private:
+    bool check(long long first,long long second,int index, string str){
+        string ss;
+        long long nxt,r;
+        while(index<str.size()){
+            ss=to_string(first+second);
+            nxt=first+second;
+            first=second;
+            second=nxt;
+            r=0;
+            while(index<str.size() && r<ss.size() && ss[r]==str[index]){
+                index++;
+                r++;
+            }
+            if(r!=ss.size()){
+                return false;
+            }
+        }
+        return index==str.size();
+    }
+};
