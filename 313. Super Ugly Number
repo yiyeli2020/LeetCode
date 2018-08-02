@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector<int>& primes) {
+        //由于我们不知道质数的个数，我们可以用一个pos数组来保存当前的位置，然后我们从每个子链中取出一个数，找出其中最小值，然后更新pos数组对应位置，注意有可能最小值不止一个，要更新所有最小值的位置，参见代码如下
+        int k=primes.size();
+        vector<int> pos(k,0);
+        vector<int> res(n);
+        res[0]=1;
+        for(int i=1;i<n;i++){
+            int temp=INT_MAX;
+            for(int j=0;j<k;j++)//从每个子链中取出一个数，找出其中最小值
+                temp=min(temp,res[pos[j]] * primes[j]);
+            for(int j=0;j<k;j++){//更新pos数组对应位置，注意有可能最小值不止一个，要更新所有最小值的位置
+                if(temp==res[pos[j]] * primes[j])
+                    pos[j]++;
+            }
+            res[i]=temp;
+        }
+        return res[n-1];
+    }
+};
