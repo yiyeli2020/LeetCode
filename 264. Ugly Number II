@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int nthUglyNumber(int n) {
+        int *uglynum=new int[n];
+        uglynum[0]=1;
+        
+        int factor2=2,factor3=3,factor5=5;
+        int index2,index3,index5;
+        index2=index3=index5=0;
+        for(int i=1;i<n;i++){
+            int minnum=min(factor2,factor3,factor5);
+            uglynum[i]=minnum;
+            
+            if(factor2==minnum) {
+                index2++;
+                factor2=2*uglynum[index2];
+                
+            }
+            if(factor3==minnum){
+                index3++;
+                factor3=3*uglynum[index3];
+                
+            }
+            if(factor5==minnum){
+                 index5++;
+                factor5=5*uglynum[index5];
+               
+            }
+            //output
+           // for(int j=0;j<=i;j++) cout<<uglynum[j]<<" ";cout<<endl;
+        }
+        int temp=uglynum[n-1];
+        delete [] uglynum;
+        return  temp;
+    }
+private:
+    int min(int a,int b,int c){
+        int minnum=a>b ? b: a;
+        return minnum >c ? c : minnum;
+    }
+};
