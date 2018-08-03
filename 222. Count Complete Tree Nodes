@@ -1,0 +1,41 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int height(TreeNode *root){
+        if(!root) return 0;
+        return 1+height(root->left);
+    }
+    int countNodes(TreeNode* root) {
+        // if(!root) return 0;
+        // if(root->val!=INT_MIN){
+        //     root->val=INT_MIN;
+        //     return 1+countNodes(root->left)+countNodes(root->right);
+        // }
+        // else return 0;
+        if(!root) return 0;
+        int left=height(root->left);//height of the left tree
+        int right=height(root->right);//height of the right tree
+        if(left==right){//left tree is full and right subtree is complete
+            //最后个叶节点在右子树
+        // 加上左子树的所有节点, 往右子树走
+            if(left==0) return 1;
+            int left_count=(2<<(left-1)) -1;//numbers of the left nodes
+            return left_count+1+countNodes(root->right);
+        }else{ //left subtree is complete
+            // 右子树高度 = 左子树高度 - 1, 最后个叶节点在左子树
+        // 加上右子树的所有节点, 往左子树走
+        nodes += 1 << (h - 1);
+            if(right==0) return 2;
+            int  right_count=(2<<(right-1))-1;
+            return right_count+1+countNodes(root->left);
+        }
+    }
+};
