@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int countBinarySubstrings(string s) {
+        vector<int> a(s.size(),0),cnt(s.size(),0);
+        for(int i=0;i<s.size();i++){
+            a.push_back(s[i]-'0');
+        }
+        int temp=0;
+        cnt[0]=1;
+        for(int i=1;i<s.size();i++){
+          
+            if(s[i]!=s[i-1]) temp++;
+            cnt[temp]++;
+        }
+        int res=0;
+        for(int i=0;i<temp;i++){
+            res+=min(cnt[i],cnt[i+1]);//相邻的字符串最小的长度就是可能的子字符串长度
+        }
+        return res;
+    }
+};
