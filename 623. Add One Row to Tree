@@ -1,0 +1,64 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* addOneRow(TreeNode* root, int v, int d) {
+        /*这道题让我们给二叉树增加一行，给了我们需要增加的值，还有需要增加的位置深度，题目中给的例子也比较能清晰的说明问题。但是漏了一种情况，那就是当d=1时，这该怎么加？这时候就需要替换根结点了。其他情况的处理方法都一样，这里博主第一映像觉得应该用层序遍历来做，没遍历完一层，d自减1，我们探测，当d==1时，那么我们需要对于当前层的每一个结点，首先用临时变量保存其原有的左右子结点，然后新建值为v的左右子结点，将原有的左子结点连到新建的左子结点的左子结点上，将原有的右子结点连到新建的右子结点的右子结点，是不是很绕-.-|||。如果d不为1，那么就是层序遍历原有的排入队列操作，记得当检测到d为0时，直接返回，因为添加操作已经完成，没有必要遍历完剩下的结点，参见代码如下：*/
+//         if(!root) return NULL;
+//         else if( d==1) {
+//             TreeNode *head=new TreeNode(v);
+//             head->left=root;
+//             return head;
+//         }
+//         queue<TreeNode*> q{{root}};
+//         int curd=1;//当前遍历的深度
+//         while(!q.empty()){
+          
+//           if(curd>d) return root;
+//           int n=q.size();
+//           for(int i=0;i<n;i++){
+//               TreeNode *parent=q.front(); 
+//             //  cout<<"front node="<<parent->val<<" curd="<<curd<<endl;
+//               q.pop();
+//               if(curd==d-1){
+//              // cout<<"visit the current node="<<parent->val<<endl;
+//               TreeNode *newleft=new TreeNode(v);
+//               TreeNode *newright=new TreeNode(v);
+//               TreeNode *left=parent->left;
+//               TreeNode *right=parent->right;
+//               parent->left=newleft;
+//               parent->right=newright;
+//               newleft->left=left;
+//               newright->right=right;
+//              // cout<<"end"<<endl;
+//           }
+//               else{
+//                 //  cout<<"push"<<endl;
+//                   if(parent->left) q.push(parent->left);
+//                   if(parent->right) q.push(parent->right);
+//               }
+//           }
+//           curd++;
+          
+//         }
+//         return root;
+/* 一看上去，会有疑问，题目中明明d的范围是从1开始的，为何要考虑d为0的情况，后来读懂了整个解法后，才为原作者的聪慧叹服。这里d的0和1，其实相当于一种flag，如果d为1的话，那么将root连到新建的结点的左子结点上；反之如果d为0，那么将root连到新建的结点的右子结点上，然后返回新建的结点。如果root存在且d大于1的话，那么对root的左子结点调用递归函数，注意此时若d的值正好为2，那么我们就不能直接减1，而是根据左右子结点的情况分别赋值1和0，这样才能起到flag的作用*/
+         if (d == 0 || d == 1) {
+            TreeNode *newRoot = new TreeNode(v);
+            (d ? newRoot->left : newRoot->right) = root;
+            return newRoot;
+        }
+        if (root && d > 1) {
+            root->left = addOneRow(root->left, v, d > 2 ? d - 1 : 1);
+            root->right = addOneRow(root->right, v, d > 2 ? d - 1 : 0);
+        }
+        return root;
+    }
+};
