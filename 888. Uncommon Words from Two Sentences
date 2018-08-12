@@ -1,0 +1,72 @@
+
+class Solution {
+public:
+    void output(vector<int> nums) {
+        for (int i = 0; i < nums.size(); i++) {
+            cout << nums[i] << " ";
+        }
+        cout << endl;
+    }
+    
+
+    void pushstr(string str, unordered_map<string, int> &mp) {
+        string s = "";
+        for (int i = 0; i<str.size(); i++) {
+            if (str[i] != ' ') s += str[i];
+            else if (str[i] == ' ') {
+                if (mp.find(s) != mp.end()) mp[s]++;
+                else if (mp.find(s) == mp.end()) mp[s] = 1;
+                s = "";
+            }
+        }
+        if (s.size() > 0) {
+            if (mp.find(s) != mp.end()) mp[s]++;
+            else if (mp.find(s) == mp.end()) mp[s] = 1;
+        }
+    }
+    void output(unordered_map<string, int> mpa) {
+        cout << "output:" << endl;
+        for (unordered_map<string, int>::iterator it = mpa.begin(); it != mpa.end(); it++) {
+            cout << (*it).first << "  " << (*it).second << endl;
+        }
+    }
+    vector<string> uncommonFromSentences(string A, string B) {
+        vector<string> res;
+        unordered_map<string, int> mpa, mpb;
+        pushstr(A, mpa);
+        pushstr(B, mpb);
+        //output(mpa);
+        //output(mpb);
+        for (unordered_map<string, int>::iterator it=mpa.begin();it!=mpa.end();it++) {
+            
+            //it = mpa.find(a.first);   //返回查找到元素的iterator，如未查找到，返回end()
+
+            if (mpb.find((*it).first) == mpb.end() && ((*it).second==1))
+            {
+                res.push_back((*it).first);
+            }
+            /*if ((B.find(a.first) == B.end()) && (a.second == 1)) {
+                res.push_back(a.first);
+            }*/
+        }
+        //for (auto b : B) {
+        //    if ((b.second == 1) && (A.find(b.first) == A.end())) {
+        //        res.push_back(b.first);
+        //    }
+        //}
+        for (unordered_map<string, int>::iterator it = mpb.begin(); it != mpb.end(); it++) {
+
+            //it = mpa.find(a.first);   //返回查找到元素的iterator，如未查找到，返回end()
+
+            if (mpa.find((*it).first) == mpa.end() && ((*it).second == 1))
+            {
+                res.push_back((*it).first);
+            }
+            /*if ((B.find(a.first) == B.end()) && (a.second == 1)) {
+            res.push_back(a.first);
+            }*/
+        }
+        return res;
+    }
+
+};
