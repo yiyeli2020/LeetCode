@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        vector<int> sum;
+        sum.push_back(0);//对于原数组，如果我们将arr[i]-arr[i-1]，也就是股票某日与前一日价格差，依次排列成一个数组，那么所求问题的答案就变成了求这个新数组的最大子列和。
+        for(int i=1;i<prices.size();i++){
+            sum.push_back(prices[i]-prices[i-1]);
+        }
+        
+        //kadane算法
+        //以第i+1个数结尾的子列和 = max（x，以第i个数结尾的子列和+x）。(1)
+        //数列长度i+1的最大子列和 = max(以第i+1个数结尾的子列和， 数列长度i的最大子列和)。(2)
+        int maxendhere=sum[0];
+        int maxsofar=sum[0];
+        for(int i=1;i<prices.size();i++){
+            maxendhere=max(maxendhere+sum[i],sum[i]);
+            maxsofar=max(maxendhere,maxsofar);
+        }
+        return maxsofar;
+    }
+};
