@@ -1,0 +1,44 @@
+class Solution {
+public:
+    /*
+    One important point is that by XORing all the numbers, we actually get the XOR of the two target numbers (because XORing two duplicate numbers always results in 0). Consider the XOR result of the two target numbers; if some bit of the XOR result is 1, it means that the two target numbers differ at that location.
+
+Let’s say the at the ith bit, the two desired numbers differ from each other. which means one number has bit i equaling: 0, the other number has bit i equaling 1.
+
+Thus, all the numbers can be partitioned into two groups according to their bits at location i.
+the first group consists of all numbers whose bits at i is 0.
+the second group consists of all numbers whose bits at i is 1.
+
+Notice that, if a duplicate number has bit i as 0, then, two copies of it will belong to the first group. Similarly, if a duplicate number has bit i as 1, then, two copies of it will belong to the second group.
+
+by XoRing all numbers in the first group, we can get the first number.
+by XoRing all numbers in the second group, we can get the second number.*/
+    vector<int> singleNumber(vector<int>& nums) {
+        int dif=nums[0];
+        for(int i=1;i<nums.size();i++){
+            dif^=nums[i];
+        }
+        int index=FindFirstBitIs1(dif);
+        vector<int> odd,even;
+        for(auto n:nums){
+            if((n>>index)&1!=0) odd.push_back(n);
+            else even.push_back(n);
+        }
+        vector<int> res;
+        int res1=odd[0];
+        int res2=even[0];
+        for(int i=1;i<odd.size();i++) res1^=odd[i];
+        for(int i=1;i<even.size();i++) res2^=even[i];
+        res.push_back(res1);
+        res.push_back(res2);
+        return res;
+    }
+    int FindFirstBitIs1(int num){
+        int index=0;
+        while((num&1)==0){
+            num=num>>1;
+            index++;
+        }
+        return index;
+    }
+};
