@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<vector<int>> spiralMatrixIII(int R, int C, int r0, int c0) {
+//         int rpos=r0,cpos=c0,dir=0,go=1;//dir is the direction in the dr[4] and dc[4]
+//         int distan=0,total=0;
+//         int dr[4]={0,1,0,-1};
+//         int dc[4]={1,0,-1,0};
+//         vector<vector<int>> res;
+        
+//         res.push_back({rpos,cpos});//push back the start position
+//         total++;
+//         while(total<R*C){//total is the total visit numbers
+//             for(int i=1;i<=go;i++){
+//                 rpos+=dr[dir];//start to go
+//                 cpos+=dc[dir];
+//                 if(rpos>=0 && rpos<R && cpos>=0 && cpos<C){// push back the eanswer if it is in the grid
+//                     res.push_back({rpos,cpos});
+//                     total++;
+//                 }
+//             }
+            
+//             if(distan &1){//每隔两次访问步数加1，即恰好为奇数时访问步数加1
+//                 go++;
+//             }
+//             distan++;
+            
+//             dir++;
+//             dir%=4;//change direction
+//         }
+//         return res;
+            vector<vector<int>> res{{r0,c0}};
+            int xmove=0,ymove=1,temp;
+            for (int n = 0; res.size() < R * C; n++) {
+                for(int i=0;i<n/2-1;i++){
+                    r0+=xmove;
+                    c0+=ymove;
+                    if(r0>=0 && r0<R && c0>=0 && c0<C) res.push_back({r0,c0});
+                }
+                temp=xmove;
+                xmove=ymove;
+                ymove=-temp;
+            }
+            return res;        
+    }
+};
