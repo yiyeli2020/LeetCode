@@ -1,0 +1,33 @@
+class Solution {
+	public:
+	    vector<vector<int>> generateMatrix(int n) {
+	        vector<vector<int>> res(n,vector<int>(n,0));
+	        int start=0;
+	        int num=1;
+	        while(start*2<n){
+	            generate(res,start,num,n);
+	            start++;
+	        }
+	        return res;
+	    }
+	    void generate(vector<vector<int>> &res,int start,int &num,int n){
+	        int endy=n-start-1;
+	        int endx=n-start-1;
+	        for(int j=start;j<=endy;j++){
+	            res[start][j]=num;
+	            num++;
+	        }
+	        for(int i=start+1;i<=endx;i++){
+	            res[i][endy]=num;
+	            num++;
+	        }
+	        for(int j=endy-1;j>=start;j--){
+	            res[endx][j]=num;
+	            num++;
+	        }
+	        for(int i=endx-1;i>start;i--){
+	            res[i][start]=num;
+	            num++;
+	        }
+	    }
+	};
