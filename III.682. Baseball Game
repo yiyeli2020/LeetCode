@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int calPoints(vector<string>& ops) {
+        stack<int> sta;
+        int sum=0;
+        for(int i=0;i<ops.size();i++){
+            
+            if(ops[i]=="+") {
+                int s1=sta.top();sta.pop();
+                int s2=sta.top();sta.push(s1);
+                //cout<<"sum="<<sum<<"   s1="<<s1<<"   s2="<<s2<<endl;
+                sum=sum+s1+s2;
+                sta.push(s1+s2);
+            }else if(ops[i]=="D"){
+                int s1=sta.top();
+                sum+=2*s1;
+                sta.push(2*s1);
+            }else if(ops[i]=="C"){
+                int s1=sta.top();
+                sum-=s1;
+                sta.pop();
+            }else{
+                if(ops[i][0]=='-'){
+                    int s1=0;
+                    for(int j=1;j<ops[i].size();j++){
+                        s1=s1*10+(ops[i][j]-'0');
+                    }
+                    sum-=s1;
+                    sta.push(-s1);
+                }
+                else{
+                    int s1=0;
+                    for(int j=0;j<ops[i].size();j++){
+                        s1=s1*10+(ops[i][j]-'0');
+                    }
+                    sum+=s1;
+                    sta.push(s1);
+                }
+            }
+           // cout<<"sum="<<sum<<endl;
+        }
+        return sum;
+    }
+};
