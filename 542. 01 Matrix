@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) {
+        int m=matrix.size();
+        int n=matrix[0].size();
+        queue<pair<int,int>> que;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(matrix[i][j]==0) que.push(make_pair(i,j));
+                else matrix[i][j]=-1;
+            }
+        }
+        
+        vector<vector<int>> dirs={
+            {-1,0},
+            {1,0},
+            {0,-1},
+            {0,1}
+        };
+        while(!que.empty()){
+            auto q=que.front();
+            que.pop();
+            for(int d=0;d<4;d++){
+                int r=q.first+dirs[d][0];
+                int c=q.second+dirs[d][1];
+                if(r>=0 && r<m && c>=0 && c<n && matrix[r][c]==-1 ) {
+                que.push(make_pair(r,c));
+                matrix[r][c]=matrix[q.first][q.second]+1; //distance++
+                                                                                             }
+                
+            }
+        }
+        return matrix;
+    }
+};
