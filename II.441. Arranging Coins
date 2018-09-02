@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int arrangeCoins(int n) {
+        int rows=0;
+        int left=n;
+        while(left>0){
+            rows++;
+            left=left-rows;
+ //           cout<<"left="<<left<<"  rows="<<rows<<endl;
+        }
+        if(left==0) return rows;
+        else if(left<0) {
+            rows--;
+            return rows;
+        }
+    }
+};
