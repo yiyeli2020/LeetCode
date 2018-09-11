@@ -1,0 +1,24 @@
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int l=0,h=nums.size()-1,mid=0,temp=0;
+        while(mid<=h){
+            if(nums[mid]==1){
+                mid++;
+            }
+            else if(nums[mid]==0){
+                temp=nums[mid];
+                nums[mid]=nums[l];
+                nums[l]=temp;
+                l++;
+                mid++;
+            }
+            else if(nums[mid]==2){
+                temp=nums[mid];
+                nums[mid]=nums[h];
+                nums[h]=temp;
+                h--;
+            }
+        }
+    }
+};
