@@ -1,0 +1,68 @@
+class Solution {
+public:
+    void toLowerCase(string &s){
+        for(int i=0;i<s.size();i++){
+            if(s[i]-'A'>=0 && s[i]-'Z'<=0){
+                s[i]='a'+(s[i]-'A');
+            }
+        }
+        // string::iterator it;
+        // for(it=s.begin();it!=s.end();it++){
+        //     if(*it==',' || *it=='!' || *it=='?' || *it==';' || *it=='.' )
+        //        s.erase(it);
+        // }
+        // s.erase(std::remove(s.begin(), s.end(), ','), s.end());
+        //  s.erase(std::remove(s.begin(), s.end(), '!'), s.end());
+        //  s.erase(std::remove(s.begin(), s.end(), '?'), s.end());
+        //  s.erase(std::remove(s.begin(), s.end(), ';'), s.end());
+        //  s.erase(std::remove(s.begin(), s.end(), '.'), s.end());
+    }
+    void split(unordered_map<string,int> &mp,string & paragraph,string pattern){
+        int pos;
+        
+        paragraph+=pattern;
+           int len=paragraph.size();
+        for(int i=0;i<len;i++){
+            if(paragraph[i]==',' ||paragraph[i]=='\'' || paragraph[i]=='!' || paragraph[i]=='?' || paragraph[i]==',' || paragraph[i]==';'|| paragraph[i]=='.' ){
+                paragraph[i]=' ';
+            }
+            
+        }
+        for(int i=0;i<len;i++){
+            pos=paragraph.find(pattern,i);
+            if(pos<len){
+                string s=paragraph.substr(i,pos-i);
+                toLowerCase(s);
+                
+                if(mp.find(s)==mp.end()) mp[s]=1;
+                else mp[s]++;
+                if(pos+1<len && paragraph[pos+1]==' ') i=pos+pattern.size();
+                else i=pos+pattern.size()-1;
+            }
+        } 
+    }
+    void output(set<pair<int,string>> st){
+        for(auto s:st){
+            cout<<s.second<<"="<<s.first<<endl;
+        }
+    }
+    string mostCommonWord(string paragraph, vector<string>& banned) {
+        unordered_map<string,int> mp;
+        split(mp,paragraph," ");
+        set<pair<int,string>> st;
+        unordered_map<string,int> ::iterator it;
+      
+        for(it=mp.begin();it!=mp.end();it++){
+            st.insert(make_pair(it->second,it->first));
+        }
+        // output(st);
+        set<pair<int,string>>::iterator res=st.end();
+        res--;
+        for(;res!=st.begin();res--){
+            
+            if(std::find(banned.begin(),banned.end(),res->second)==banned.end())
+                break;
+        }
+        return res->second;
+    }
+};
