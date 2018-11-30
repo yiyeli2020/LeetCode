@@ -1,0 +1,11 @@
+class Solution {
+    public boolean increasingTriplet(int[] nums) {
+       int small=Integer.MAX_VALUE,big=Integer.MAX_VALUE;
+        for(int n:nums){
+            if(n<=small) small=n;//update small is n<both
+            else if(n<=big) big=n; //update big if small<n<big
+            else return true;// if n>both
+        }
+        return false;
+    }
+}
