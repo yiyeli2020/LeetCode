@@ -1,0 +1,21 @@
+class Solution {
+    public int partitionDisjoint(int[] A) {
+        int max=0,min=0;
+        for(int i=0;i<A.length;i++){
+            max=maxnum(A,i);
+            min=A[i+1];
+            for(int j=i+1;j<A.length;j++){
+                if(A[j]<min) min=A[j];
+            }
+            if(max<=min ) return i+1;
+        }
+        return A.length;
+    }
+    public int maxnum(int []A,int part){
+        int max=A[0];
+        for(int i=0;i<=part;i++){
+            if(A[i]>max) max=A[i];
+        }
+        return max;
+    }
+}
